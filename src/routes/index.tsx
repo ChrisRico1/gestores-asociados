@@ -14,16 +14,43 @@ import {
   Phone,
   ShieldCheck,
   Star,
+  UserCheck,
   type LucideIcon,
 } from "lucide-react";
 
-const WA = "https://wa.me/5491133323229?text=Hola%20Gestores%20Asociados%2C%20quiero%20hacer%20una%20consulta";
+// Enlaces de WhatsApp con mensajes precargados con origen de la web
+const WA = `https://wa.me/5491133323229?text=${encodeURIComponent("Hola Gestores Asociados, vengo de la página web y quiero hacer una consulta")}`;
 const TEL = "tel:+541133323229";
 const MAPS = "https://www.google.com/maps/search/?api=1&query=Colon+3939+Lanus+Buenos+Aires";
 const FACEBOOK = "https://www.facebook.com/profile.php?id=61573403949959";
 const INSTAGRAM = "https://www.instagram.com/gestoresasociados/";
 const TIKTOK = "https://www.tiktok.com/@gestores_asociados";
 const GOOGLE_BUSINESS = "https://share.google/lDuSeHpey97KRjsLR";
+
+// Asesores de Gestores Asociados
+const advisors = [
+  {
+    name: "Christian",
+    role: "Especialista en reducción de infracciones",
+    phone: "5491133323229",
+    initial: "C",
+    msg: encodeURIComponent("¡Hola Christian! Vengo de la página web de Gestores Asociados y necesito asesoramiento sobre un trámite."),
+  },
+  {
+    name: "Natalia",
+    role: "Atención al Cliente",
+    phone: "5491166900550",
+    initial: "N",
+    msg: encodeURIComponent("¡Hola Natalia! Vengo de la página web de Gestores Asociados y necesito asesoramiento sobre un trámite."),
+  },
+  {
+    name: "Florencia",
+    role: "Mandataria D.N.R.P.A matriculada",
+    phone: "5491127273404",
+    initial: "F",
+    msg: encodeURIComponent("¡Hola Florencia! Vengo de la página web de Gestores Asociados y necesito asesoramiento sobre un trámite."),
+  },
+];
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -87,6 +114,7 @@ function Index() {
           </a>
           <nav className="hidden gap-6 text-sm text-muted-foreground md:flex">
             <a href="#servicios" className="hover:text-foreground">Servicios</a>
+            <a href="#asesores" className="hover:text-foreground">Asesores</a>
             <a href="#opiniones" className="hover:text-foreground">Opiniones</a>
             <a href="#contacto" className="hover:text-foreground">Contacto</a>
           </nav>
@@ -143,7 +171,42 @@ function Index() {
           </div>
         </section>
 
-        <section className="border-y border-border bg-muted/65">
+        {/* Sección Asesores Directos por WhatsApp */}
+        <section id="asesores" className="border-b border-border/70 bg-card/50 py-16">
+          <div className="mx-auto max-w-6xl px-5">
+            <div className="text-center">
+              <span className="text-sm font-semibold text-accent">Atención Personalizada</span>
+              <h2 className="mt-2 text-3xl font-bold md:text-4xl">Hablá directamente con nuestro equipo</h2>
+              <p className="mt-3 mx-auto max-w-2xl text-muted-foreground">
+                Elegí con quién querés comunicarte para recibir asesoramiento inmediato sobre tu vehículo o trámite.
+              </p>
+            </div>
+
+            <div className="mt-10 grid gap-6 md:grid-cols-3">
+              {advisors.map((advisor) => (
+                <div key={advisor.name} className="group relative rounded-xl border border-border bg-card p-6 text-center transition hover:-translate-y-1 hover:border-accent/50 hover:bg-secondary/40 shadow-lg">
+                  <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-accent/20 text-accent font-bold text-2xl border border-accent/40 shadow-[0_0_20px_rgba(194,255,31,0.15)] mb-4">
+                    {advisor.initial}
+                  </div>
+                  <h3 className="text-xl font-bold text-foreground">{advisor.name}</h3>
+                  <p className="text-xs text-muted-foreground mt-1 mb-6">{advisor.role}</p>
+                  
+                  <a
+                    href={`https://wa.me/${advisor.phone}?text=${advisor.msg}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-whatsapp px-4 py-3 font-semibold text-whatsapp-foreground transition hover:opacity-95 shadow-[0_0_20px_rgba(61,230,147,0.25)]"
+                  >
+                    <MessageCircle className="h-5 w-5" />
+                    Escribir a {advisor.name}
+                  </a>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="border-b border-border bg-muted/65">
           <div className="mx-auto max-w-6xl px-5 py-16">
             <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
               <div>
