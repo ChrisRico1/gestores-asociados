@@ -3,10 +3,12 @@ import {
   ArrowUpRight,
   BadgeCheck,
   Car,
+  ChevronDown,
   Clock,
   Facebook,
   FileCheck2,
   FileText,
+  HelpCircle,
   Instagram,
   MapPin,
   MessageCircle,
@@ -14,11 +16,11 @@ import {
   Phone,
   ShieldCheck,
   Star,
-  UserCheck,
   type LucideIcon,
 } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
-// Enlaces de WhatsApp con mensajes precargados con origen de la web
+// Enlaces de WhatsApp con mensajes precargados
 const WA = `https://wa.me/5491133323229?text=${encodeURIComponent("Hola Gestores Asociados, vengo de la página web y quiero hacer una consulta")}`;
 const TEL = "tel:+541133323229";
 const MAPS = "https://www.google.com/maps/search/?api=1&query=Colon+3939+Lanus+Buenos+Aires";
@@ -31,7 +33,7 @@ const GOOGLE_BUSINESS = "https://share.google/lDuSeHpey97KRjsLR";
 const advisors = [
   {
     name: "Christian",
-    role: "Especialista en reducción de infracciones",
+    role: "Gestor Autorizado",
     phone: "5491133323229",
     initial: "C",
     msg: encodeURIComponent("¡Hola Christian! Vengo de la página web de Gestores Asociados y necesito asesoramiento sobre un trámite."),
@@ -45,10 +47,34 @@ const advisors = [
   },
   {
     name: "Florencia",
-    role: "Mandataria D.N.R.P.A matriculada",
+    role: "Gestoría Integral",
     phone: "5491127273404",
     initial: "F",
     msg: encodeURIComponent("¡Hola Florencia! Vengo de la página web de Gestores Asociados y necesito asesoramiento sobre un trámite."),
+  },
+];
+
+// Preguntas Frecuentes
+const faqs = [
+  {
+    q: "¿Qué documentación necesito para iniciar una transferencia?",
+    a: "Lo fundamental es contar con el Título de propiedad (físico o digital), la Cédula de identificación del vehículo, DNI de comprador y vendedor, y el formulario 08 (firmado o para firmar). Nosotros revisamos toda la documentación para que no tengas demoras.",
+  },
+  {
+    q: "¿Puedo consultar o descontar infracciones antes de vender o comprar?",
+    a: "¡Sí! Hacemos un informe exhaustivo de multas y deudas de patentes a nivel municipal y provincial (ARBA/CABA), gestionamos los descargos correspondientes y te asesoramos para que resuelvas la deuda de la forma más económica posible.",
+  },
+  {
+    q: "¿Cuánto tarda un Informe de Dominio?",
+    a: "Los informes de dominio urgente o en el acto se obtienen en el día (muchas veces en minutos), mientras que los comunes tardan entre 24 y 48 horas hábiles. Te avisamos inmediatamente apenas lo tenemos en mano.",
+  },
+  {
+    q: "¿Atienden únicamente en Lanús o en toda Zona Sur y CABA?",
+    a: "Si bien nuestra oficina central está ubicada en Lanús (Colón 3939), realizamos radicaciones, transferencias y trámites en registros automotores de toda Zona Sur (Avellaneda, Lomas de Zamora, Quilmes) y CABA.",
+  },
+  {
+    q: "¿Tienen costo las consultas iniciales por WhatsApp?",
+    a: "No, la consulta previa y el asesoramiento inicial para saber qué papeles necesitás o cómo proceder son totalmente gratuitos y sin compromiso.",
   },
 ];
 
@@ -109,13 +135,6 @@ const reviews = [
   },
 ];
 
-const stats = [
-  ["5,0", "Calificación en Google"],
-  ["24 hs", "Atención activa"],
-  ["550+", "Vistas mensuales"],
-  ["Gratis", "Primer asesoramiento"],
-];
-
 const steps = [
   { t: "Nos escribís", d: "Contanos qué trámite necesitás resolver y mandanos la documentación disponible." },
   { t: "Revisamos tu caso", d: "Analizamos la situación y te explicamos opciones, tiempos y próximos pasos." },
@@ -123,7 +142,54 @@ const steps = [
   { t: "Lo resolvés", d: "Cerramos la gestión con claridad, comprobantes y asesoramiento hasta el final." },
 ];
 
+// Componente para contador animado
+function AnimatedCounter({ end, suffix = "" }: { end: number; suffix?: string }) {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+  const [hasAnimated, setHasAnimated] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasAnimated) {
+          setHasAnimated(true);
+          let start = 0;
+          const duration = 1500;
+          const increment = end / (duration / 16);
+
+          const timer = setInterval(() => {
+            start += increment;
+            if (start >= end) {
+              setCount(end);
+              clearInterval(timer);
+            } else {
+              setCount(Math.floor(start));
+            }
+          }, 16);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [end, hasAnimated]);
+
+  return (
+    <span ref={ref}>
+      {count}
+      {suffix}
+    </span>
+  );
+}
+
 function Index() {
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
+
+  const toggleFaq = (index: number) => {
+    setOpenFaq(openFaq === index ? null : index);
+  };
+
   return (
     <div className="min-h-screen overflow-hidden bg-background text-foreground">
       <header className="sticky top-0 z-20 border-b border-border/70 bg-background/85 backdrop-blur-xl">
@@ -135,12 +201,13 @@ function Index() {
             <span>Gestores<span className="text-accent">.</span>Asociados</span>
           </a>
           <nav className="hidden gap-6 text-sm text-muted-foreground md:flex">
-            <a href="#servicios" className="hover:text-foreground">Servicios</a>
-            <a href="#asesores" className="hover:text-foreground">Asesores</a>
-            <a href="#opiniones" className="hover:text-foreground">Opiniones</a>
-            <a href="#contacto" className="hover:text-foreground">Contacto</a>
+            <a href="#servicios" className="hover:text-foreground transition-colors">Servicios</a>
+            <a href="#asesores" className="hover:text-foreground transition-colors">Asesores</a>
+            <a href="#opiniones" className="hover:text-foreground transition-colors">Opiniones</a>
+            <a href="#faq" className="hover:text-foreground transition-colors">Preguntas Frecuentes</a>
+            <a href="#contacto" className="hover:text-foreground transition-colors">Contacto</a>
           </nav>
-          <a href={WA} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-whatsapp px-4 py-2 text-sm font-semibold text-whatsapp-foreground shadow-[0_0_28px_rgba(61,230,147,0.28)]">
+          <a href={WA} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-whatsapp px-4 py-2 text-sm font-semibold text-whatsapp-foreground shadow-[0_0_28px_rgba(61,230,147,0.28)] transition hover:scale-105">
             <MessageCircle className="h-4 w-4" />
             <span>WhatsApp</span>
           </a>
@@ -148,14 +215,18 @@ function Index() {
       </header>
 
       <main>
+        {/* HERO SECTION */}
         <section className="relative border-b border-border/70">
           <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_18%_15%,rgba(194,255,31,0.20),transparent_30%),radial-gradient(circle_at_88%_22%,rgba(36,219,224,0.22),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.06),transparent_42%)]" />
           <div className="mx-auto grid max-w-6xl gap-12 px-5 py-16 md:grid-cols-[1.15fr_0.85fr] md:py-24">
             <div className="self-center">
-              <span className="inline-flex items-center gap-2 rounded-full border border-accent/35 bg-accent/10 px-3 py-1 text-xs font-semibold text-accent">
-                <Star className="h-3.5 w-3.5 fill-current" />
-                5,0 en Google · Abierto 24 hs
-              </span>
+              <div className="inline-flex items-center gap-2 rounded-full border border-accent/35 bg-accent/10 px-3.5 py-1 text-xs font-semibold text-accent shadow-[0_0_15px_rgba(194,255,31,0.15)]">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+                5,0 en Google · En línea 24 hs
+              </div>
               <h1 className="mt-6 max-w-3xl text-4xl font-bold leading-tight md:text-6xl">
                 Gestión automotor clara, rápida y sin vueltas.
               </h1>
@@ -163,11 +234,11 @@ function Index() {
                 Resolvemos trámites, infracciones e informes con asesoramiento gratuito y atención directa por WhatsApp.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <a href={WA} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-whatsapp px-6 py-3 font-semibold text-whatsapp-foreground shadow-[0_0_34px_rgba(61,230,147,0.30)]">
+                <a href={WA} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-whatsapp px-6 py-3 font-semibold text-whatsapp-foreground shadow-[0_0_34px_rgba(61,230,147,0.30)] transition hover:scale-105">
                   <MessageCircle className="h-5 w-5" />
                   Consultar gratis
                 </a>
-                <a href={TEL} className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-6 py-3 font-semibold text-foreground hover:border-accent/60">
+                <a href={TEL} className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-6 py-3 font-semibold text-foreground hover:border-accent/60 transition hover:bg-secondary">
                   <Phone className="h-5 w-5" />
                   011 3332-3229
                 </a>
@@ -176,38 +247,56 @@ function Index() {
 
             <div className="relative self-center">
               <div className="absolute inset-8 -z-10 rounded-full bg-cyan-400/15 blur-3xl" />
-              <div className="mx-auto max-w-sm rounded-lg border border-white/12 bg-card/80 p-5 shadow-2xl shadow-black/40 backdrop-blur">
+              <div className="mx-auto max-w-sm rounded-2xl border border-white/12 bg-card/80 p-6 shadow-2xl shadow-black/40 backdrop-blur">
                 <div className="rounded-full bg-[linear-gradient(135deg,var(--accent),var(--cyan))] p-1.5 shadow-[0_0_50px_rgba(36,219,224,0.20)]">
                   <img src="/gestores-logo.jpg" alt="Logo de Gestores Asociados" className="aspect-square w-full rounded-full border border-black/60 object-cover" />
                 </div>
-                <div className="mt-5 grid grid-cols-2 gap-3">
-                  {stats.map(([a, b]) => (
-                    <div key={b} className="rounded-lg border border-border bg-secondary/55 p-4">
-                      <div className="text-2xl font-bold text-accent" style={{ fontFamily: "Sora" }}>{a}</div>
-                      <div className="mt-1 text-xs text-muted-foreground">{b}</div>
+                <div className="mt-6 grid grid-cols-2 gap-3">
+                  <div className="rounded-xl border border-border bg-secondary/55 p-4 text-center">
+                    <div className="text-2xl font-bold text-accent" style={{ fontFamily: "Sora" }}>5,0 ★</div>
+                    <div className="mt-1 text-xs text-muted-foreground">Calificación Google</div>
+                  </div>
+                  <div className="rounded-xl border border-border bg-secondary/55 p-4 text-center">
+                    <div className="text-2xl font-bold text-accent" style={{ fontFamily: "Sora" }}>24 hs</div>
+                    <div className="mt-1 text-xs text-muted-foreground">Atención activa</div>
+                  </div>
+                  <div className="rounded-xl border border-border bg-secondary/55 p-4 text-center">
+                    <div className="text-2xl font-bold text-accent" style={{ fontFamily: "Sora" }}>
+                      <AnimatedCounter end={537} suffix="+" />
                     </div>
-                  ))}
+                    <div className="mt-1 text-xs text-muted-foreground">Vistas mensuales</div>
+                  </div>
+                  <div className="rounded-xl border border-border bg-secondary/55 p-4 text-center">
+                    <div className="text-2xl font-bold text-accent" style={{ fontFamily: "Sora" }}>Gratis</div>
+                    <div className="mt-1 text-xs text-muted-foreground">Primer consulta</div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Sección Asesores Directos por WhatsApp */}
-        <section id="asesores" className="border-b border-border/70 bg-card/50 py-16">
+        {/* SECCIÓN ASESORES DIRECTOS */}
+        <section id="asesores" className="border-b border-border/70 bg-card/40 py-16">
           <div className="mx-auto max-w-6xl px-5">
             <div className="text-center">
-              <span className="text-sm font-semibold text-accent">Atención Personalizada</span>
-              <h2 className="mt-2 text-3xl font-bold md:text-4xl">Hablá directamente con nuestro equipo</h2>
-              <p className="mt-3 mx-auto max-w-2xl text-muted-foreground">
-                Elegí con quién querés comunicarte para recibir asesoramiento inmediato sobre tu vehículo o trámite.
+              <span className="inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-3.5 py-1 text-xs font-semibold text-accent">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+                Atención Inmediata
+              </span>
+              <h2 className="mt-3 text-3xl font-bold md:text-4xl">Hablá directamente con nuestro equipo</h2>
+              <p className="mt-2 mx-auto max-w-2xl text-muted-foreground">
+                Elegí con quién querés comunicarte para recibir respuesta personalizada en el acto.
               </p>
             </div>
 
             <div className="mt-10 grid gap-6 md:grid-cols-3">
               {advisors.map((advisor) => (
-                <div key={advisor.name} className="group relative rounded-xl border border-border bg-card p-6 text-center transition hover:-translate-y-1 hover:border-accent/50 hover:bg-secondary/40 shadow-lg">
-                  <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-accent/20 text-accent font-bold text-2xl border border-accent/40 shadow-[0_0_20px_rgba(194,255,31,0.15)] mb-4">
+                <div key={advisor.name} className="group relative rounded-2xl border border-border bg-card p-6 text-center transition-all duration-300 hover:-translate-y-1.5 hover:border-accent/60 hover:shadow-[0_10px_30px_rgba(194,255,31,0.12)]">
+                  <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-accent/20 text-accent font-bold text-2xl border border-accent/40 shadow-[0_0_20px_rgba(194,255,31,0.15)] mb-4 group-hover:scale-110 transition-transform">
                     {advisor.initial}
                   </div>
                   <h3 className="text-xl font-bold text-foreground">{advisor.name}</h3>
@@ -217,7 +306,7 @@ function Index() {
                     href={`https://wa.me/${advisor.phone}?text=${advisor.msg}`}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-whatsapp px-4 py-3 font-semibold text-whatsapp-foreground transition hover:opacity-95 shadow-[0_0_20px_rgba(61,230,147,0.25)]"
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-whatsapp px-4 py-3 font-semibold text-whatsapp-foreground transition hover:scale-[1.02] shadow-[0_0_20px_rgba(61,230,147,0.25)]"
                   >
                     <MessageCircle className="h-5 w-5" />
                     Escribir a {advisor.name}
@@ -228,8 +317,9 @@ function Index() {
           </div>
         </section>
 
-        <section className="border-b border-border bg-muted/65">
-          <div className="mx-auto max-w-6xl px-5 py-16">
+        {/* CÓMO TRABAJAMOS */}
+        <section className="border-b border-border bg-muted/65 py-16">
+          <div className="mx-auto max-w-6xl px-5">
             <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
               <div>
                 <span className="text-sm font-semibold text-accent">Cómo trabajamos</span>
@@ -241,11 +331,11 @@ function Index() {
             </div>
             <div className="mt-10 grid gap-4 md:grid-cols-4">
               {steps.map((step, i) => (
-                <article key={step.t} className="relative rounded-lg border border-border bg-card p-5">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent text-sm font-bold text-accent-foreground">
+                <article key={step.t} className="relative rounded-xl border border-border bg-card p-5 transition hover:border-accent/40">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent text-sm font-bold text-accent-foreground shadow-md">
                     {i + 1}
                   </div>
-                  <h3 className="mt-5 font-semibold">{step.t}</h3>
+                  <h3 className="mt-5 font-semibold text-foreground">{step.t}</h3>
                   <p className="mt-2 text-sm leading-6 text-muted-foreground">{step.d}</p>
                 </article>
               ))}
@@ -253,6 +343,7 @@ function Index() {
           </div>
         </section>
 
+        {/* SERVICIOS */}
         <section id="servicios" className="mx-auto max-w-6xl px-5 py-20">
           <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
             <div>
@@ -267,11 +358,11 @@ function Index() {
             {services.map((s) => {
               const Icon = s.icon;
               return (
-                <article key={s.t} className="group rounded-lg border border-border bg-card p-6 transition hover:-translate-y-1 hover:border-accent/45 hover:bg-secondary">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-primary text-primary-foreground ring-1 ring-white/10">
-                    <Icon className="h-5 w-5" />
+                <article key={s.t} className="group rounded-2xl border border-border bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:border-accent/45 hover:bg-secondary/60 hover:shadow-lg">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-primary-foreground ring-1 ring-white/10 group-hover:scale-110 transition-transform">
+                    <Icon className="h-5 w-5 text-accent" />
                   </div>
-                  <h3 className="mt-5 text-lg font-semibold">{s.t}</h3>
+                  <h3 className="mt-5 text-lg font-semibold text-foreground">{s.t}</h3>
                   <p className="mt-2 text-sm leading-6 text-muted-foreground">{s.d}</p>
                 </article>
               );
@@ -279,37 +370,135 @@ function Index() {
           </div>
         </section>
 
-        <section id="opiniones" className="border-y border-border bg-muted">
-          <div className="mx-auto max-w-6xl px-5 py-20">
-            <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+        {/* OPINIONES / TESTIMONIOS */}
+        <section id="opiniones" className="border-y border-border bg-gradient-to-b from-muted/50 to-muted py-20">
+          <div className="mx-auto max-w-6xl px-5">
+            <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
               <div>
-                <span className="text-sm font-semibold text-accent">Opiniones</span>
-                <h2 className="mt-2 text-3xl font-bold md:text-4xl">Clientes que ya resolvieron</h2>
+                <span className="inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-3.5 py-1 text-xs font-semibold text-accent">
+                  <BadgeCheck className="h-4 w-4" /> Reseñas 100% Reales de Google
+                </span>
+                <h2 className="mt-3 text-3xl font-bold md:text-4xl">Clientes que ya gestionaron con tranquilidad</h2>
+                <p className="mt-2 text-muted-foreground">
+                  La experiencia de quienes confían en nosotros día a día para resolver sus trámites en Lanús y Zona Sur.
+                </p>
               </div>
-              <div className="flex items-center gap-2 text-accent">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className="h-5 w-5 fill-current" />
-                ))}
-              </div>
-            </div>
-            <div className="mt-10 grid gap-4 md:grid-cols-3">
-              {reviews.map((r) => (
-                <figure key={r.n} className="rounded-lg border border-border bg-card p-6">
-                  <div className="flex gap-1 text-accent">
+
+              <div className="flex items-center gap-4 rounded-xl border border-border bg-card p-4 shadow-sm">
+                <div className="text-center">
+                  <div className="text-3xl font-extrabold text-foreground" style={{ fontFamily: "Sora" }}>5,0</div>
+                  <div className="flex text-accent mt-0.5">
                     {Array.from({ length: 5 }).map((_, i) => (
                       <Star key={i} className="h-4 w-4 fill-current" />
                     ))}
                   </div>
-                  <blockquote className="mt-4 leading-7 text-foreground">"{r.r}"</blockquote>
-                  <figcaption className="mt-5 text-sm font-semibold text-muted-foreground">{r.n}</figcaption>
+                </div>
+                <div className="h-10 w-[1px] bg-border" />
+                <a
+                  href={GOOGLE_BUSINESS}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-xs text-muted-foreground hover:text-accent transition-colors"
+                >
+                  Ver Perfil Oficial en <br />
+                  <span className="font-semibold text-foreground underline decoration-accent decoration-2">Google Maps ↗</span>
+                </a>
+              </div>
+            </div>
+
+            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {reviews.map((r) => (
+                <figure
+                  key={r.n}
+                  className="relative flex flex-col justify-between rounded-2xl border border-border bg-card p-6 shadow-sm transition hover:-translate-y-1 hover:border-accent/40 hover:shadow-md"
+                >
+                  <div>
+                    <div className="flex items-center justify-between">
+                      <div className="flex text-accent">
+                        {Array.from({ length: 5 }).map((_, i) => (
+                          <Star key={i} className="h-4 w-4 fill-current" />
+                        ))}
+                      </div>
+                      <span className="rounded-full bg-accent/10 px-2.5 py-0.5 text-[11px] font-semibold text-accent">
+                        Google Review
+                      </span>
+                    </div>
+                    <blockquote className="mt-4 text-base leading-relaxed text-foreground italic">
+                      "{r.r}"
+                    </blockquote>
+                  </div>
+
+                  <figcaption className="mt-6 border-t border-border/60 pt-4 flex items-center justify-between">
+                    <div>
+                      <div className="font-bold text-foreground text-sm">{r.n}</div>
+                      <div className="text-xs text-muted-foreground">{r.tag}</div>
+                    </div>
+                    <BadgeCheck className="h-5 w-5 text-accent" />
+                  </figcaption>
                 </figure>
               ))}
+            </div>
+
+            <div className="mt-10 text-center">
+              <a
+                href={GOOGLE_BUSINESS}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-6 py-3 font-semibold text-foreground transition hover:border-accent hover:bg-secondary"
+              >
+                <Star className="h-4 w-4 text-accent fill-current" />
+                Ver todas las opiniones en Google
+              </a>
             </div>
           </div>
         </section>
 
-        <section id="contacto" className="mx-auto grid max-w-6xl gap-8 px-5 py-20 md:grid-cols-[0.9fr_1.1fr]">
-          <div className="rounded-lg border border-border bg-card p-6 md:p-8">
+        {/* SECCIÓN PREGUNTAS FRECUENTES (FAQ) */}
+        <section id="faq" className="mx-auto max-w-4xl px-5 py-20">
+          <div className="text-center">
+            <span className="inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-3.5 py-1 text-xs font-semibold text-accent">
+              <HelpCircle className="h-4 w-4" /> Respuestas Rápidas
+            </span>
+            <h2 className="mt-3 text-3xl font-bold md:text-4xl">Preguntas Frecuentes</h2>
+            <p className="mt-2 text-muted-foreground">
+              Despejá tus dudas principales antes de iniciar cualquier gestión del automotor.
+            </p>
+          </div>
+
+          <div className="mt-10 space-y-4">
+            {faqs.map((faq, index) => {
+              const isOpen = openFaq === index;
+              return (
+                <div
+                  key={faq.q}
+                  className="rounded-2xl border border-border bg-card overflow-hidden transition-all duration-200"
+                >
+                  <button
+                    onClick={() => toggleFaq(index)}
+                    className="w-full flex items-center justify-between p-6 text-left font-semibold text-lg text-foreground hover:text-accent transition-colors"
+                  >
+                    <span>{faq.q}</span>
+                    <ChevronDown
+                      className={`h-5 w-5 text-accent transition-transform duration-300 shrink-0 ml-4 ${
+                        isOpen ? "rotate-180" : ""
+                      }`}
+                    />
+                  </button>
+
+                  {isOpen && (
+                    <div className="px-6 pb-6 text-muted-foreground text-sm leading-relaxed border-t border-border/40 pt-4 animate-in fade-in slide-in-from-top-2 duration-200">
+                      {faq.a}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* CONTACTO Y MAPA */}
+        <section id="contacto" className="mx-auto grid max-w-6xl gap-8 px-5 py-12 md:grid-cols-[0.9fr_1.1fr]">
+          <div className="rounded-2xl border border-border bg-card p-6 md:p-8">
             <span className="text-sm font-semibold text-accent">Contacto</span>
             <h2 className="mt-2 text-3xl font-bold md:text-4xl">Escribinos y arrancamos</h2>
             <ul className="mt-8 space-y-5">
@@ -317,14 +506,14 @@ function Index() {
                 <MapPin className="mt-1 h-5 w-5 text-accent" />
                 <div>
                   <div className="text-sm text-muted-foreground">Dirección</div>
-                  <a href={GOOGLE_BUSINESS} target="_blank" rel="noreferrer" className="font-semibold hover:text-accent">Colón 3939, B1824 Lanús, Buenos Aires</a>
+                  <a href={GOOGLE_BUSINESS} target="_blank" rel="noreferrer" className="font-semibold hover:text-accent transition-colors">Colón 3939, B1824 Lanús, Buenos Aires</a>
                 </div>
               </li>
               <li className="flex gap-3">
                 <Phone className="mt-1 h-5 w-5 text-accent" />
                 <div>
                   <div className="text-sm text-muted-foreground">Teléfono</div>
-                  <a href={TEL} className="font-semibold hover:text-accent">011 3332-3229</a>
+                  <a href={TEL} className="font-semibold hover:text-accent transition-colors">011 3332-3229</a>
                 </div>
               </li>
               <li className="flex gap-3">
@@ -336,26 +525,26 @@ function Index() {
               </li>
             </ul>
             <div className="mt-8 flex flex-wrap gap-3">
-              <a href={WA} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-whatsapp px-5 py-3 font-semibold text-whatsapp-foreground">
+              <a href={WA} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-whatsapp px-5 py-3 font-semibold text-whatsapp-foreground hover:scale-105 transition-transform">
                 <MessageCircle className="h-5 w-5" />
                 WhatsApp
               </a>
-              <a href={INSTAGRAM} target="_blank" rel="noreferrer" className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-border bg-secondary hover:border-accent/60" aria-label="Instagram">
+              <a href={INSTAGRAM} target="_blank" rel="noreferrer" className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-border bg-secondary hover:border-accent/60 transition-colors" aria-label="Instagram">
                 <Instagram className="h-5 w-5" />
               </a>
-              <a href={FACEBOOK} target="_blank" rel="noreferrer" className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-border bg-secondary hover:border-accent/60" aria-label="Facebook">
+              <a href={FACEBOOK} target="_blank" rel="noreferrer" className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-border bg-secondary hover:border-accent/60 transition-colors" aria-label="Facebook">
                 <Facebook className="h-5 w-5" />
               </a>
-              <a href={TIKTOK} target="_blank" rel="noreferrer" className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-border bg-secondary hover:border-accent/60" aria-label="TikTok">
+              <a href={TIKTOK} target="_blank" rel="noreferrer" className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-border bg-secondary hover:border-accent/60 transition-colors" aria-label="TikTok">
                 <Music2 className="h-5 w-5" />
               </a>
-              <a href={GOOGLE_BUSINESS} target="_blank" rel="noreferrer" className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-border bg-secondary hover:border-accent/60" aria-label="Google Business">
+              <a href={GOOGLE_BUSINESS} target="_blank" rel="noreferrer" className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-border bg-secondary hover:border-accent/60 transition-colors" aria-label="Google Business">
                 <MapPin className="h-5 w-5" />
               </a>
             </div>
           </div>
 
-          <div className="min-h-80 overflow-hidden rounded-lg border border-border bg-card">
+          <div className="min-h-80 overflow-hidden rounded-2xl border border-border bg-card">
             <iframe
               title="Mapa Gestores Asociados"
               className="h-full min-h-80 w-full grayscale invert-[0.88] hue-rotate-180"
@@ -365,13 +554,14 @@ function Index() {
           </div>
         </section>
 
+        {/* CTA FINAL */}
         <section className="mx-auto max-w-6xl px-5 pb-20">
-          <div className="flex flex-col items-start justify-between gap-5 rounded-lg border border-accent/30 bg-[linear-gradient(135deg,rgba(194,255,31,0.16),rgba(36,219,224,0.12))] p-6 md:flex-row md:items-center md:p-8">
+          <div className="flex flex-col items-start justify-between gap-5 rounded-2xl border border-accent/30 bg-[linear-gradient(135deg,rgba(194,255,31,0.16),rgba(36,219,224,0.12))] p-6 md:flex-row md:items-center md:p-8">
             <div>
               <h2 className="text-2xl font-bold">¿Tenés una gestión pendiente?</h2>
               <p className="mt-2 max-w-2xl text-muted-foreground">Mandanos tu consulta y te decimos qué documentación necesitás y cuál es el camino más conveniente.</p>
             </div>
-            <a href={WA} target="_blank" rel="noreferrer" className="inline-flex shrink-0 items-center gap-2 rounded-full bg-foreground px-6 py-3 font-semibold text-background">
+            <a href={WA} target="_blank" rel="noreferrer" className="inline-flex shrink-0 items-center gap-2 rounded-full bg-foreground px-6 py-3 font-semibold text-background hover:scale-105 transition-transform">
               Empezar ahora
               <ArrowUpRight className="h-5 w-5" />
             </a>
@@ -383,11 +573,12 @@ function Index() {
         © 2026 Gestores Asociados · Gestoría del Automotor en Lanús
       </footer>
 
+      {/* BOTÓN FLOTANTE WHATSAPP */}
       <a
         href={WA}
         target="_blank"
         rel="noreferrer"
-        className="fixed bottom-5 right-5 z-30 inline-flex h-14 w-14 items-center justify-center rounded-full bg-whatsapp text-whatsapp-foreground shadow-[0_0_34px_rgba(61,230,147,0.38)] transition hover:-translate-y-1 md:h-auto md:w-auto md:gap-2 md:px-5 md:py-3"
+        className="fixed bottom-5 right-5 z-30 inline-flex h-14 w-14 items-center justify-center rounded-full bg-whatsapp text-whatsapp-foreground shadow-[0_0_34px_rgba(61,230,147,0.38)] transition hover:scale-110 md:h-auto md:w-auto md:gap-2 md:px-5 md:py-3"
         aria-label="Consultar por WhatsApp"
       >
         <MessageCircle className="h-6 w-6" />
