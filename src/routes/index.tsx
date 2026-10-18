@@ -51,6 +51,16 @@ const advisors = [
   },
 ];
 
+// Zonas de Cobertura
+const coverageAreas = [
+  { title: "Lanús Este & Oeste", desc: "Oficina central y atención presencial/coordinada inmediata." },
+  { title: "Avellaneda", desc: "Gestiones rápidas ante Registros Automotores de la zona." },
+  { title: "Lomas de Zamora", desc: "Trámites de transferencia, informes y verificación." },
+  { title: "Quilmes", desc: "Asesoramiento integral para particulares y flotas." },
+  { title: "CABA", desc: "Cobertura en registros e instituciones de Capital Federal." },
+  { title: "Zona Sur GBA", desc: "Atención a partidos aledaños con logística ágil." },
+];
+
 // Preguntas Frecuentes
 const faqs = [
   {
@@ -84,6 +94,53 @@ export const Route = createFileRoute("/")({
       { property: "og:description", content: "Resolvemos tus trámites del automotor rápido y seguro. Asesoramiento gratuito. 5,0 ★ en Google." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "AutomotiveBusiness",
+          "name": "Gestores Asociados",
+          "image": "https://gestores-asociados.lovable.app/gestores-logo.jpg",
+          "@id": "https://gestores-asociados.lovable.app/",
+          "url": "https://gestores-asociados.lovable.app/",
+          "telephone": "+541133323229",
+          "priceRange": "$$",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Colón 3939",
+            "addressLocality": "Lanús",
+            "addressRegion": "Buenos Aires",
+            "postalCode": "B1824",
+            "addressCountry": "AR"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": -34.7075,
+            "longitude": -58.3816
+          },
+          "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "opens": "00:00",
+            "closes": "23:59"
+          },
+          "sameAs": [
+            "https://www.facebook.com/profile.php?id=61573403949959",
+            "https://www.instagram.com/gestoresasociados/",
+            "https://www.tiktok.com/@gestores_asociados"
+          ]
+        }),
+      },
     ],
   }),
   component: Index,
@@ -200,8 +257,9 @@ function Index() {
           <nav className="hidden gap-6 text-sm text-muted-foreground md:flex">
             <a href="#servicios" className="hover:text-foreground transition-colors">Servicios</a>
             <a href="#asesores" className="hover:text-foreground transition-colors">Asesores</a>
+            <a href="#cobertura" className="hover:text-foreground transition-colors">Cobertura</a>
             <a href="#opiniones" className="hover:text-foreground transition-colors">Opiniones</a>
-            <a href="#faq" className="hover:text-foreground transition-colors">Preguntas Frecuentes</a>
+            <a href="#faq" className="hover:text-foreground transition-colors">FAQ</a>
             <a href="#contacto" className="hover:text-foreground transition-colors">Contacto</a>
           </nav>
           <a href="#asesores" className="inline-flex items-center gap-2 rounded-full bg-whatsapp px-4 py-2 text-sm font-semibold text-whatsapp-foreground shadow-[0_0_28px_rgba(61,230,147,0.28)] transition hover:scale-105">
@@ -225,10 +283,10 @@ function Index() {
                 5,0 en Google · En línea 24 hs
               </div>
               <h1 className="mt-6 max-w-3xl text-4xl font-bold leading-tight md:text-6xl">
-                Gestión automotor clara, rápida y sin vueltas.
+                Gestión automotor clara, rápida y sin vueltas en Lanús.
               </h1>
               <p className="mt-5 max-w-xl text-lg text-muted-foreground">
-                Resolvemos trámites, infracciones e informes con asesoramiento gratuito y atención directa por WhatsApp.
+                Resolvemos trámites, infracciones e informes con asesoramiento gratuito y atención directa por WhatsApp en toda Zona Sur y CABA.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <a href="#asesores" className="inline-flex items-center gap-2 rounded-full bg-whatsapp px-6 py-3 font-semibold text-whatsapp-foreground shadow-[0_0_34px_rgba(61,230,147,0.30)] transition hover:scale-105">
@@ -367,8 +425,37 @@ function Index() {
           </div>
         </section>
 
+        {/* ZONA DE COBERTURA (SEO LOCAL) */}
+        <section id="cobertura" className="border-y border-border bg-muted/40 py-20">
+          <div className="mx-auto max-w-6xl px-5">
+            <div className="text-center">
+              <span className="inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-3.5 py-1 text-xs font-semibold text-accent">
+                <MapPin className="h-4 w-4" /> Zona de Influencia
+              </span>
+              <h2 className="mt-3 text-3xl font-bold md:text-4xl">¿Dónde operamos?</h2>
+              <p className="mt-2 max-w-2xl mx-auto text-muted-foreground">
+                Oficina central en Lanús y cobertura ágil en registros automotores de toda la región metropolitana y Zona Sur.
+              </p>
+            </div>
+
+            <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {coverageAreas.map((zone) => (
+                <div key={zone.title} className="rounded-2xl border border-border bg-card p-6 transition hover:border-accent/40 shadow-sm">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent/15 text-accent">
+                      <MapPin className="h-5 w-5" />
+                    </div>
+                    <h3 className="text-lg font-bold text-foreground">{zone.title}</h3>
+                  </div>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{zone.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* OPINIONES / TESTIMONIOS */}
-        <section id="opiniones" className="border-y border-border bg-gradient-to-b from-muted/50 to-muted py-20">
+        <section id="opiniones" className="border-b border-border bg-gradient-to-b from-muted/50 to-muted py-20">
           <div className="mx-auto max-w-6xl px-5">
             <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
               <div>
