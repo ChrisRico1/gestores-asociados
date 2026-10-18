@@ -82,15 +82,37 @@ const services: Service[] = [
 ];
 
 const reviews = [
-  { n: "Stefania Orsini", r: "Me tuvieron toda la paciencia para explicarme y me solucionaron todo 😎🙌" },
-  { n: "Fabian Vera", r: "Excelente servicio, rápidos y eficaces." },
-  { n: "Lautaro Martinez", r: "Buen servicio, muchas gracias!" },
+  {
+    n: "Stefania Orsini",
+    r: "Me tuvieron toda la paciencia para explicarme y me solucionaron todo 😎🙌",
+    tag: "Transferencia automotor",
+  },
+  {
+    n: "Maximiliano Delia",
+    r: "Súper recomendables, todo fue excelente y en tiempo récord.",
+    tag: "Informe de dominio e infracciones",
+  },
+  {
+    n: "Fabian Vera",
+    r: "Excelente servicio, rápidos y muy eficaces. Súper confiables.",
+    tag: "Verificación policial",
+  },
+  {
+    n: "Romitucci82",
+    r: "Son excelentes y muy recomendables en confianza. ¡Muchas gracias!",
+    tag: "Gestión de patentes",
+  },
+  {
+    n: "Lautaro Martinez",
+    r: "Buen servicio y atención constante por WhatsApp, muchas gracias!",
+    tag: "Asesoramiento general",
+  },
 ];
 
 const stats = [
   ["5,0", "Calificación en Google"],
   ["24 hs", "Atención activa"],
-  ["537+", "Vistas mensuales"],
+  ["550+", "Vistas mensuales"],
   ["Gratis", "Primer asesoramiento"],
 ];
 
