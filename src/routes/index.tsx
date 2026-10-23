@@ -205,7 +205,7 @@ function AnimatedCounter({ end, suffix = "" }: { end: number; suffix?: string })
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !hasAnimated) {
+        if (entry?.isIntersecting && !hasAnimated) {
           setHasAnimated(true);
           let start = 0;
           const duration = 1500;
