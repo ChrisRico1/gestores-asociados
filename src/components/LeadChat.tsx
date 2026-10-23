@@ -60,14 +60,15 @@ const FLOWS: Record<Topic, Flow> = {
     phone: "5491127273404",
     message: () => "Hola Florencia, vengo desde la web de Gestores Asociados y necesito asesoramiento por una transferencia u otro trámite del automotor.",
   },
+
   informes: {
     label: "Informes de dominio / deuda de patente / deuda de infracciones",
     prompt: "Ingresá la patente para solicitar un informe de dominio o consultar deuda de patente o infracciones.",
     kind: "patente",
-    advisor: "Natalia",
-    phone: "5491166900550",
+    advisor: "Christian",
+    phone: "5491133323229",
     message: (patente) =>
-      `Hola Natalia, vengo desde la web de Gestores Asociados. Quiero consultar por un informe o deuda del vehículo con patente ${patente}.`,
+      `Hola Christian, vengo desde la web de Gestores Asociados. Quiero consultar por un informe de dominio o deuda de patente o infracciones para el vehículo con patente ${patente}.`,
   },
 };
 
