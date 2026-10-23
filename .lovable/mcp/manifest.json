@@ -1,0 +1,99 @@
+{
+  "version": 1,
+  "sdk_version": "3.2.2",
+  "path": "/mcp",
+  "auth": {
+    "type": "none"
+  },
+  "mcp": {
+    "server": {
+      "name": "gestores-asociados",
+      "version": "0.1.0",
+      "title": "Gestores Asociados"
+    },
+    "tools": [
+      {
+        "name": "get_business_info",
+        "title": "Información del negocio",
+        "description": "Devuelve la información pública de Gestores Asociados: nombre, dirección, teléfono, horario, calificación en Google, sitio web y redes sociales.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": null,
+        "outputSchema": null
+      },
+      {
+        "name": "list_services",
+        "title": "Listar servicios",
+        "description": "Lista los servicios de gestoría del automotor que ofrece Gestores Asociados (infracciones, verificación policial, altas y bajas de patente, sellado de ARBA, informes y seguros para motos).",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": null,
+        "outputSchema": null
+      },
+      {
+        "name": "list_reviews",
+        "title": "Listar reseñas",
+        "description": "Devuelve las reseñas textuales reales de Google que los clientes dejaron a Gestores Asociados, con autor y trámite asociado.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": null,
+        "outputSchema": null
+      },
+      {
+        "name": "list_coverage_areas",
+        "title": "Listar zonas de cobertura",
+        "description": "Lista las zonas donde Gestores Asociados realiza trámites: Lanús, Avellaneda, Lomas de Zamora, Quilmes, CABA y Zona Sur del Gran Buenos Aires.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": null,
+        "outputSchema": null
+      },
+      {
+        "name": "list_faqs",
+        "title": "Preguntas frecuentes",
+        "description": "Devuelve las preguntas frecuentes de Gestores Asociados con sus respuestas (documentación para transferencias, infracciones, informes de dominio, zonas de atención y costo de las consultas).",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": null,
+        "outputSchema": null
+      },
+      {
+        "name": "get_whatsapp_links",
+        "title": "Enlaces de WhatsApp de los asesores",
+        "description": "Devuelve los enlaces públicos de WhatsApp de los asesores de Gestores Asociados para iniciar una consulta. No envía mensajes: solo entrega el enlace para que la persona lo abra.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "advisor": {
+              "type": "string",
+              "description": "Nombre del asesor (Christian, Natalia o Florencia). Si se omite, devuelve los tres."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
