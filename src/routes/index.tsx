@@ -18,6 +18,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import LeadChat from "../components/LeadChat";
 
 // Enlaces e información general
 const MAPS = "https://www.google.com/maps/search/?api=1&query=Colon+3939+Lanus+Buenos+Aires";
@@ -650,15 +651,7 @@ function Index() {
         © 2026 Gestores Asociados · Gestoría del Automotor en Lanús
       </footer>
 
-      {/* BOTÓN FLOTANTE DIRIGIDO A ASESORES */}
-      <a
-        href="#asesores"
-        className="fixed bottom-5 right-5 z-30 inline-flex h-14 w-14 items-center justify-center rounded-full bg-whatsapp text-whatsapp-foreground shadow-[0_0_34px_rgba(61,230,147,0.38)] transition hover:scale-110 md:h-auto md:w-auto md:gap-2 md:px-5 md:py-3"
-        aria-label="Consultar por WhatsApp"
-      >
-        <MessageCircle className="h-6 w-6" />
-        <span className="hidden font-semibold md:inline">Consultar</span>
-      </a>
+      <LeadChat />
     </div>
   );
 }
