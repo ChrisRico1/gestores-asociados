@@ -87,6 +87,7 @@ const faqs = [
 ];
 
 export const Route = createFileRoute("/")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Gestores Asociados | Gestoría del Automotor en Lanús" },
