@@ -302,7 +302,7 @@ function Index() {
               <div className="absolute inset-8 -z-10 rounded-full bg-cyan-400/15 blur-3xl" />
               <div className="mx-auto max-w-sm rounded-2xl border border-white/12 bg-card/80 p-4 shadow-2xl shadow-black/40 backdrop-blur sm:p-6">
                 <div className="mb-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-accent">Resultados que generan confianza</p>
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#cdf700]">Resultados que generan confianza</p>
                   <h2 className="mt-1 text-xl font-bold tracking-tight sm:text-2xl">Tu trámite, en buenas manos</h2>
                 </div>
                 <div className="grid grid-cols-2 gap-2 sm:gap-3">
