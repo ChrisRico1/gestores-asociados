@@ -104,11 +104,11 @@ export default function LeadChat() {
   };
 
   return (
-    <div className="fixed bottom-5 right-5 z-40 flex flex-col items-end gap-3">
+    <div className="fixed inset-x-3 bottom-3 z-40 flex flex-col items-end gap-3 sm:inset-x-auto sm:bottom-5 sm:right-5">
       {isOpen && (
         <section
           aria-label="Asistente de Gestores Asociados"
-          className="flex max-h-[min(680px,calc(100dvh-7rem))] w-[min(370px,calc(100vw-2rem))] flex-col overflow-hidden rounded-2xl border border-border bg-card text-card-foreground shadow-2xl shadow-black/25"
+          className="flex max-h-[min(680px,calc(100dvh-5rem))] w-full max-w-[370px] flex-col overflow-hidden rounded-2xl border border-border bg-card text-card-foreground shadow-2xl shadow-black/25 sm:max-h-[min(680px,calc(100dvh-7rem))]"
         >
           <header className="flex items-center justify-between gap-3 bg-[linear-gradient(135deg,var(--accent),var(--cyan))] px-4 py-4 text-slate-950">
             <div className="flex items-center gap-3">
@@ -227,7 +227,7 @@ export default function LeadChat() {
         onClick={() => setIsOpen((open) => !open)}
         aria-label={isOpen ? "Cerrar asistente" : "Abrir asistente de consultas"}
         aria-expanded={isOpen}
-        className="inline-flex h-14 items-center justify-center gap-2 rounded-full bg-whatsapp px-5 text-whatsapp-foreground shadow-[0_0_34px_rgba(61,230,147,0.38)] transition hover:scale-105"
+        className="inline-flex h-12 max-w-full items-center justify-center gap-2 rounded-full bg-whatsapp px-4 text-sm text-whatsapp-foreground shadow-[0_0_34px_rgba(61,230,147,0.38)] transition sm:h-14 sm:px-5 sm:text-base"
       >
         {isOpen ? <X className="h-5 w-5" /> : <MessageCircle className="h-5 w-5" />}
         <span className="font-semibold">{isOpen ? "Cerrar" : "¿En qué te ayudamos?"}</span>
