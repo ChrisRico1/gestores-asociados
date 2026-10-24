@@ -301,27 +301,38 @@ function Index() {
             <div className="relative self-center">
               <div className="absolute inset-8 -z-10 rounded-full bg-cyan-400/15 blur-3xl" />
               <div className="mx-auto max-w-sm rounded-2xl border border-white/12 bg-card/80 p-4 shadow-2xl shadow-black/40 backdrop-blur sm:p-6">
-                <div className="rounded-full bg-[linear-gradient(135deg,var(--accent),var(--cyan))] p-1.5 shadow-[0_0_50px_rgba(36,219,224,0.20)]">
-                  <img src="/gestores-logo.jpg" alt="Logo de Gestores Asociados" className="aspect-square w-full rounded-full border border-black/60 object-cover" />
+                <div className="mb-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-accent">Resultados que generan confianza</p>
+                  <h2 className="mt-1 text-xl font-bold tracking-tight sm:text-2xl">Tu trámite, en buenas manos</h2>
                 </div>
-                <div className="mt-4 grid grid-cols-2 gap-2 sm:mt-6 sm:gap-3">
+                <div className="grid grid-cols-2 gap-2 sm:gap-3">
                   <div className="rounded-xl border border-border bg-secondary/55 p-3 text-center sm:p-4">
-                    <div className="text-2xl font-bold text-accent" style={{ fontFamily: "Sora" }}>5,0 ★</div>
-                    <div className="mt-1 text-xs text-muted-foreground">Calificación Google</div>
+                    <div className="text-2xl font-bold text-accent sm:text-3xl" style={{ fontFamily: "Sora" }}>5,0 ★</div>
+                    <div className="mt-1 text-xs text-muted-foreground">Calificación en Google</div>
                   </div>
                   <div className="rounded-xl border border-border bg-secondary/55 p-3 text-center sm:p-4">
-                    <div className="text-2xl font-bold text-accent" style={{ fontFamily: "Sora" }}>24 hs</div>
+                    <div className="text-2xl font-bold text-accent sm:text-3xl" style={{ fontFamily: "Sora" }}>5 ★</div>
+                    <div className="mt-1 text-xs text-muted-foreground">Calificación en Facebook</div>
+                  </div>
+                  <div className="rounded-xl border border-border bg-secondary/55 p-3 text-center sm:p-4">
+                    <div className="text-2xl font-bold text-accent sm:text-3xl" style={{ fontFamily: "Sora" }}>
+                      <AnimatedCounter end={537} suffix="+" />
+                    </div>
+                    <div className="mt-1 text-xs text-muted-foreground">Visitas mensuales</div>
+                  </div>
+                  <div className="rounded-xl border border-border bg-secondary/55 p-3 text-center sm:p-4">
+                    <div className="text-2xl font-bold text-accent sm:text-3xl" style={{ fontFamily: "Sora" }}>
+                      <AnimatedCounter end={250} suffix="+" />
+                    </div>
+                    <div className="mt-1 text-xs text-muted-foreground">Trámites resueltos</div>
+                  </div>
+                  <div className="rounded-xl border border-border bg-secondary/55 p-3 text-center sm:p-4">
+                    <div className="text-2xl font-bold text-accent sm:text-3xl" style={{ fontFamily: "Sora" }}>24 hs</div>
                     <div className="mt-1 text-xs text-muted-foreground">Atención activa</div>
                   </div>
                   <div className="rounded-xl border border-border bg-secondary/55 p-3 text-center sm:p-4">
-                    <div className="text-2xl font-bold text-accent" style={{ fontFamily: "Sora" }}>
-                      <AnimatedCounter end={537} suffix="+" />
-                    </div>
-                    <div className="mt-1 text-xs text-muted-foreground">Vistas mensuales</div>
-                  </div>
-                  <div className="rounded-xl border border-border bg-secondary/55 p-3 text-center sm:p-4">
-                    <div className="text-2xl font-bold text-accent" style={{ fontFamily: "Sora" }}>Gratis</div>
-                    <div className="mt-1 text-xs text-muted-foreground">Primer consulta</div>
+                    <div className="text-2xl font-bold text-accent sm:text-3xl" style={{ fontFamily: "Sora" }}>Gratis</div>
+                    <div className="mt-1 text-xs text-muted-foreground">Primera consulta</div>
                   </div>
                 </div>
               </div>
