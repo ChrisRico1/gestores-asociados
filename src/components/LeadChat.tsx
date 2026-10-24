@@ -104,7 +104,7 @@ export default function LeadChat() {
   };
 
   return (
-    <div className="fixed inset-x-3 bottom-3 z-40 flex flex-col items-end gap-3 sm:inset-x-auto sm:bottom-5 sm:right-5">
+    <div className="fixed inset-x-3 bottom-12 z-40 flex flex-col items-start gap-3 sm:inset-x-auto sm:bottom-5 sm:right-5 sm:items-end">
       {isOpen && (
         <section
           aria-label="Asistente de Gestores Asociados"
