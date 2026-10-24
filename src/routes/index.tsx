@@ -18,6 +18,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import LeadChat from "../components/LeadChat";
 
 // Enlaces e información general
 const MAPS = "https://www.google.com/maps/search/?api=1&query=Colon+3939+Lanus+Buenos+Aires";
@@ -86,6 +87,7 @@ const faqs = [
 ];
 
 export const Route = createFileRoute("/")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Gestores Asociados | Gestoría del Automotor en Lanús" },
@@ -247,12 +249,12 @@ function Index() {
   return (
     <div className="min-h-screen overflow-hidden bg-background text-foreground">
       <header className="sticky top-0 z-20 border-b border-border/70 bg-background/85 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
-          <a href="#" className="flex items-center gap-3 font-bold text-lg text-foreground" style={{ fontFamily: "Sora" }}>
-            <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[linear-gradient(135deg,var(--accent),var(--cyan))] p-0.5 shadow-[0_0_24px_rgba(194,255,31,0.22)]">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-3 py-3 sm:gap-4 sm:px-5 sm:py-4">
+          <a href="#" className="flex min-w-0 items-center gap-2 font-bold text-sm text-foreground sm:gap-3 sm:text-lg" style={{ fontFamily: "Sora" }}>
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[linear-gradient(135deg,var(--accent),var(--cyan))] p-0.5 shadow-[0_0_24px_rgba(194,255,31,0.22)] sm:h-11 sm:w-11">
               <img src="/gestores-logo.jpg" alt="Gestores Asociados" className="h-full w-full rounded-full border border-black/50 object-cover" />
             </span>
-            <span>Gestores<span className="text-accent">.</span>Asociados</span>
+            <span className="truncate whitespace-nowrap tracking-tight">Gestores<span className="text-accent">.</span>Asociados</span>
           </a>
           <nav className="hidden gap-6 text-sm text-muted-foreground md:flex">
             <a href="#servicios" className="hover:text-foreground transition-colors">Servicios</a>
@@ -262,7 +264,7 @@ function Index() {
             <a href="#faq" className="hover:text-foreground transition-colors">FAQ</a>
             <a href="#contacto" className="hover:text-foreground transition-colors">Contacto</a>
           </nav>
-          <a href="#asesores" className="inline-flex items-center gap-2 rounded-full bg-whatsapp px-4 py-2 text-sm font-semibold text-whatsapp-foreground shadow-[0_0_28px_rgba(61,230,147,0.28)] transition hover:scale-105">
+          <a href="#asesores" className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-whatsapp px-3 py-2 text-xs font-semibold text-whatsapp-foreground shadow-[0_0_28px_rgba(61,230,147,0.28)] transition sm:gap-2 sm:px-4 sm:text-sm">
             <MessageCircle className="h-4 w-4" />
             <span>Asesores</span>
           </a>
@@ -273,23 +275,23 @@ function Index() {
         {/* HERO SECTION */}
         <section className="relative border-b border-border/70">
           <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_18%_15%,rgba(194,255,31,0.20),transparent_30%),radial-gradient(circle_at_88%_22%,rgba(36,219,224,0.22),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.06),transparent_42%)]" />
-          <div className="mx-auto grid max-w-6xl gap-12 px-5 py-16 md:grid-cols-[1.15fr_0.85fr] md:py-24">
+          <div className="mx-auto grid max-w-6xl gap-8 px-4 py-8 sm:gap-12 sm:px-5 sm:py-12 md:grid-cols-[1.15fr_0.85fr] md:py-24">
             <div className="self-center">
-              <div className="inline-flex items-center gap-2 rounded-full border border-accent/35 bg-accent/10 px-3.5 py-1 text-xs font-semibold text-accent shadow-[0_0_15px_rgba(194,255,31,0.15)]">
+              <div className="inline-flex max-w-full items-center gap-2 rounded-full border border-accent/35 bg-accent/10 px-3 py-1 text-[11px] font-semibold text-accent shadow-[0_0_15px_rgba(194,255,31,0.15)] sm:px-3.5 sm:text-xs">
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                 </span>
                 5,0 en Google · En línea 24 hs
               </div>
-              <h1 className="mt-6 max-w-3xl text-4xl font-bold leading-tight md:text-6xl">
+              <h1 className="mt-4 max-w-3xl text-[2.15rem] font-bold leading-[1.12] tracking-tight sm:mt-6 sm:text-4xl sm:leading-tight md:text-6xl">
                 Gestión automotor clara, rápida y sin vueltas en Lanús.
               </h1>
-              <p className="mt-5 max-w-xl text-lg text-muted-foreground">
+              <p className="mt-4 max-w-xl text-base leading-relaxed text-muted-foreground sm:mt-5 sm:text-lg">
                 Resolvemos trámites, infracciones e informes con asesoramiento gratuito y atención directa por WhatsApp en toda Zona Sur y CABA.
               </p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <a href="#asesores" className="inline-flex items-center gap-2 rounded-full bg-whatsapp px-6 py-3 font-semibold text-whatsapp-foreground shadow-[0_0_34px_rgba(61,230,147,0.30)] transition hover:scale-105">
+              <div className="mt-5 flex flex-col gap-3 sm:mt-8 sm:flex-row">
+                <a href="#asesores" className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-whatsapp px-5 py-3 font-semibold text-whatsapp-foreground shadow-[0_0_34px_rgba(61,230,147,0.30)] transition sm:w-auto sm:px-6">
                   <MessageCircle className="h-5 w-5" />
                   Consultar un asesor
                 </a>
@@ -298,28 +300,39 @@ function Index() {
 
             <div className="relative self-center">
               <div className="absolute inset-8 -z-10 rounded-full bg-cyan-400/15 blur-3xl" />
-              <div className="mx-auto max-w-sm rounded-2xl border border-white/12 bg-card/80 p-6 shadow-2xl shadow-black/40 backdrop-blur">
-                <div className="rounded-full bg-[linear-gradient(135deg,var(--accent),var(--cyan))] p-1.5 shadow-[0_0_50px_rgba(36,219,224,0.20)]">
-                  <img src="/gestores-logo.jpg" alt="Logo de Gestores Asociados" className="aspect-square w-full rounded-full border border-black/60 object-cover" />
+              <div className="mx-auto max-w-sm rounded-2xl border border-white/12 bg-card/80 p-4 shadow-2xl shadow-black/40 backdrop-blur sm:p-6">
+                <div className="mb-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#cdf700]">Resultados que generan confianza</p>
+                  <h2 className="mt-1 text-xl font-bold tracking-tight sm:text-2xl">Tu trámite, en buenas manos</h2>
                 </div>
-                <div className="mt-6 grid grid-cols-2 gap-3">
-                  <div className="rounded-xl border border-border bg-secondary/55 p-4 text-center">
-                    <div className="text-2xl font-bold text-accent" style={{ fontFamily: "Sora" }}>5,0 ★</div>
-                    <div className="mt-1 text-xs text-muted-foreground">Calificación Google</div>
+                <div className="grid grid-cols-2 gap-2 sm:gap-3">
+                  <div className="rounded-xl border border-border bg-secondary/55 p-3 text-center sm:p-4">
+                    <div className="text-2xl font-bold text-accent sm:text-3xl" style={{ fontFamily: "Sora" }}>5,0 ★</div>
+                    <div className="mt-1 text-xs text-muted-foreground">Calificación en Google</div>
                   </div>
-                  <div className="rounded-xl border border-border bg-secondary/55 p-4 text-center">
-                    <div className="text-2xl font-bold text-accent" style={{ fontFamily: "Sora" }}>24 hs</div>
-                    <div className="mt-1 text-xs text-muted-foreground">Atención activa</div>
+                  <div className="rounded-xl border border-border bg-secondary/55 p-3 text-center sm:p-4">
+                    <div className="text-2xl font-bold text-accent sm:text-3xl" style={{ fontFamily: "Sora" }}>5 ★</div>
+                    <div className="mt-1 text-xs text-muted-foreground">Calificación en Facebook</div>
                   </div>
-                  <div className="rounded-xl border border-border bg-secondary/55 p-4 text-center">
-                    <div className="text-2xl font-bold text-accent" style={{ fontFamily: "Sora" }}>
+                  <div className="rounded-xl border border-border bg-secondary/55 p-3 text-center sm:p-4">
+                    <div className="text-2xl font-bold text-accent sm:text-3xl" style={{ fontFamily: "Sora" }}>
                       <AnimatedCounter end={537} suffix="+" />
                     </div>
-                    <div className="mt-1 text-xs text-muted-foreground">Vistas mensuales</div>
+                    <div className="mt-1 text-xs text-muted-foreground">Visitas mensuales</div>
                   </div>
-                  <div className="rounded-xl border border-border bg-secondary/55 p-4 text-center">
-                    <div className="text-2xl font-bold text-accent" style={{ fontFamily: "Sora" }}>Gratis</div>
-                    <div className="mt-1 text-xs text-muted-foreground">Primer consulta</div>
+                  <div className="rounded-xl border border-border bg-secondary/55 p-3 text-center sm:p-4">
+                    <div className="text-2xl font-bold text-accent sm:text-3xl" style={{ fontFamily: "Sora" }}>
+                      <AnimatedCounter end={250} suffix="+" />
+                    </div>
+                    <div className="mt-1 text-xs text-muted-foreground">Trámites resueltos</div>
+                  </div>
+                  <div className="rounded-xl border border-border bg-secondary/55 p-3 text-center sm:p-4">
+                    <div className="text-2xl font-bold text-accent sm:text-3xl" style={{ fontFamily: "Sora" }}>24 hs</div>
+                    <div className="mt-1 text-xs text-muted-foreground">Atención activa</div>
+                  </div>
+                  <div className="rounded-xl border border-border bg-secondary/55 p-3 text-center sm:p-4">
+                    <div className="text-2xl font-bold text-accent sm:text-3xl" style={{ fontFamily: "Sora" }}>Gratis</div>
+                    <div className="mt-1 text-xs text-muted-foreground">Primera consulta</div>
                   </div>
                 </div>
               </div>
@@ -601,7 +614,7 @@ function Index() {
                 </div>
               </li>
             </ul>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-5 flex flex-col gap-3 sm:mt-8 sm:flex-row">
               <a href="#asesores" className="inline-flex items-center gap-2 rounded-full bg-whatsapp px-5 py-3 font-semibold text-whatsapp-foreground hover:scale-105 transition-transform">
                 <MessageCircle className="h-5 w-5" />
                 Escribir a un Asesor
@@ -650,15 +663,7 @@ function Index() {
         © 2026 Gestores Asociados · Gestoría del Automotor en Lanús
       </footer>
 
-      {/* BOTÓN FLOTANTE DIRIGIDO A ASESORES */}
-      <a
-        href="#asesores"
-        className="fixed bottom-5 right-5 z-30 inline-flex h-14 w-14 items-center justify-center rounded-full bg-whatsapp text-whatsapp-foreground shadow-[0_0_34px_rgba(61,230,147,0.38)] transition hover:scale-110 md:h-auto md:w-auto md:gap-2 md:px-5 md:py-3"
-        aria-label="Consultar por WhatsApp"
-      >
-        <MessageCircle className="h-6 w-6" />
-        <span className="hidden font-semibold md:inline">Consultar</span>
-      </a>
+      <LeadChat />
     </div>
   );
 }
