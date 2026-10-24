@@ -12,3 +12,5 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+Sitemap: https://gestores-asociados.lovable.app/sitemap.xml
