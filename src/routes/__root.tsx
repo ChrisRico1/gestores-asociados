@@ -78,8 +78,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Gestores Asociados" },
-      { name: "description", content: "Gestoría del automotor en Lanús." },
+      { title: "Gestores Asociados | Gestoría del Automotor en Lanús" },
+      { name: "description", content: "Gestoría del automotor en Lanús: reducción de infracciones, verificación policial, altas y bajas de patente, sellado de ARBA, informes al instante y seguros para motos. Atención 24 hs, Zona Sur y CABA." },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
