@@ -14,7 +14,6 @@ import {
 import { useEffect, useRef, useState } from "react";
 
 import {
-  MAPS,
   FACEBOOK,
   INSTAGRAM,
   TIKTOK,
