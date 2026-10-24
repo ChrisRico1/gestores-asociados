@@ -9,7 +9,6 @@ import {
   MessageCircle,
   Music2,
   Star,
-  type LucideIcon,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
