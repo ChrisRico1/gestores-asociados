@@ -4,7 +4,7 @@ type Gtag = (...args: unknown[]) => void;
 
 declare global {
   interface Window {
-    dataLayer?: IArguments[];
+    dataLayer?: unknown[][];
     gtag?: Gtag;
   }
 }
