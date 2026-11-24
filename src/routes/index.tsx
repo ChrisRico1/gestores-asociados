@@ -70,7 +70,7 @@ const faqs = [
   },
   {
     q: "¿Puedo consultar o descontar infracciones antes de vender o comprar?",
-    a: "¡Sí! Hacemos un informe exhaustivo de multas y deudas de patentes a nivel municipal y provincial (ARBA/CABA), gestionamos los descargos correspondientes y te asesoramos para que resuelvas la deuda de la forma más económica posible.",
+    a: "Podés consultarnos. Revisamos la jurisdicción, el estado de las actas y la documentación disponible para confirmar qué alternativas de gestión o descargo existen. No trabajamos todas las jurisdicciones y no se garantizan reducciones ni anulaciones.",
   },
   {
     q: "¿Cuánto tarda un Informe de Dominio?",
@@ -78,7 +78,7 @@ const faqs = [
   },
   {
     q: "¿Atienden únicamente en Lanús o en toda Zona Sur y CABA?",
-    a: "Si bien nuestra oficina central está ubicada en Lanús (Colón 3939), realizamos radicaciones, transferencias y trámites en registros automotores de toda Zona Sur (Avellaneda, Lomas de Zamora, Quilmes) y CABA.",
+    a: "Nuestra oficina central está en Colón 3939, Lanús. La cobertura de cada trámite depende de la jurisdicción y del organismo interviniente; confirmamos la disponibilidad antes de aceptar la gestión.",
   },
   {
     q: "¿Tienen costo las consultas iniciales por WhatsApp?",
@@ -90,11 +90,14 @@ export const Route = createFileRoute("/")({
   staticData: { sitemap: true },
   head: () => ({
     meta: [
-      { title: "Gestores Asociados | Gestoría del Automotor en Lanús" },
-      { name: "description", content: "Trámites del automotor, infracciones, verificación policial, altas y bajas de patente y sellado ARBA en Lanús. Asesoramiento gratis. Abierto 24 hs." },
-      { property: "og:title", content: "Gestores Asociados | Gestoría del Automotor en Lanús" },
-      { property: "og:description", content: "Resolvemos tus trámites del automotor rápido y seguro. Asesoramiento gratuito. 5,0 ★ en Google." },
+      { title: "Reducción de Multas y Gestoría Automotor | Gestores Asociados" },
+      { name: "description", content: "¿Tenés multas pendientes? En Gestores Asociados gestionamos infracciones, descargos y trámites del automotor. Consultá las alternativas disponibles para tu caso." },
+      { property: "og:title", content: "Reducción de Multas y Gestoría Automotor | Gestores Asociados" },
+      { property: "og:description", content: "¿Tenés multas pendientes? Gestionamos infracciones, descargos y trámites del automotor. Consultá las alternativas para tu caso." },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://gestores-asociados.lovable.app/" },
+      { property: "og:site_name", content: "Gestores Asociados" },
+      { property: "og:image", content: "https://gestores-asociados.lovable.app/gestores-logo.jpg" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     scripts: [
@@ -200,7 +203,7 @@ const steps = [
 
 // Componente para contador animado
 function AnimatedCounter({ end, suffix = "" }: { end: number; suffix?: string }) {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(end);
   const ref = useRef<HTMLSpanElement>(null);
   const [hasAnimated, setHasAnimated] = useState(false);
 
@@ -209,6 +212,7 @@ function AnimatedCounter({ end, suffix = "" }: { end: number; suffix?: string })
       ([entry]) => {
         if (entry?.isIntersecting && !hasAnimated) {
           setHasAnimated(true);
+          setCount(0);
           let start = 0;
           const duration = 1500;
           const increment = end / (duration / 16);
@@ -285,10 +289,10 @@ function Index() {
                 5,0 en Google · En línea 24 hs
               </div>
               <h1 className="mt-4 max-w-3xl text-[2.15rem] font-bold leading-[1.12] tracking-tight sm:mt-6 sm:text-4xl sm:leading-tight md:text-6xl">
-                Gestión automotor clara, rápida y sin vueltas en Lanús.
+                Gestión y reducción de multas de tránsito en Buenos Aires
               </h1>
               <p className="mt-4 max-w-xl text-base leading-relaxed text-muted-foreground sm:mt-5 sm:text-lg">
-                Resolvemos trámites, infracciones e informes con asesoramiento gratuito y atención directa por WhatsApp en toda Zona Sur y CABA.
+                Analizamos infracciones, gestionamos descargos y te orientamos sobre los trámites del automotor. La cobertura depende de la jurisdicción y de cada caso.
               </p>
               <div className="mt-5 flex flex-col gap-3 sm:mt-8 sm:flex-row">
                 <a href="#asesores" className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-whatsapp px-5 py-3 font-semibold text-whatsapp-foreground shadow-[0_0_34px_rgba(61,230,147,0.30)] transition sm:w-auto sm:px-6">
@@ -435,6 +439,28 @@ function Index() {
                 </article>
               );
             })}
+          </div>
+        </section>
+
+        {/* ENLACES INTERNOS A SERVICIOS */}
+        <section className="border-y border-border bg-card/30 py-14">
+          <div className="mx-auto max-w-6xl px-5">
+            <div className="max-w-3xl">
+              <span className="text-sm font-semibold text-accent">Servicios y soluciones</span>
+              <h2 className="mt-2 text-2xl font-bold sm:text-3xl">Encontrá la gestión que necesitás</h2>
+              <p className="mt-3 text-muted-foreground">Información sobre infracciones, trámites del automotor y soluciones para profesionales. La disponibilidad se confirma según cada caso y jurisdicción.</p>
+            </div>
+            <nav aria-label="Servicios principales" className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              <a href="/reduccion-de-multas" className="rounded-xl border border-border bg-card p-4 font-semibold hover:border-accent/60">Reducción y gestión de multas <span className="text-accent">↗</span></a>
+              <a href="/descargos-de-fotomultas" className="rounded-xl border border-border bg-card p-4 font-semibold hover:border-accent/60">Descargos de fotomultas <span className="text-accent">↗</span></a>
+              <a href="/infracciones-lanus" className="rounded-xl border border-border bg-card p-4 font-semibold hover:border-accent/60">Infracciones en Lanús <span className="text-accent">↗</span></a>
+              <a href="/gestoria-automotor" className="rounded-xl border border-border bg-card p-4 font-semibold hover:border-accent/60">Gestoría del automotor <span className="text-accent">↗</span></a>
+              <a href="/transferencias-automotor" className="rounded-xl border border-border bg-card p-4 font-semibold hover:border-accent/60">Transferencias automotor <span className="text-accent">↗</span></a>
+              <a href="/informes-de-dominio" className="rounded-xl border border-border bg-card p-4 font-semibold hover:border-accent/60">Informes de dominio <span className="text-accent">↗</span></a>
+              <a href="/gestoria-para-agencias" className="rounded-xl border border-border bg-card p-4 font-semibold hover:border-accent/60">Soluciones para agencias <span className="text-accent">↗</span></a>
+              <a href="/servicios-para-mandatarios" className="rounded-xl border border-border bg-card p-4 font-semibold hover:border-accent/60">Servicios para mandatarios <span className="text-accent">↗</span></a>
+              <a href="/preguntas-frecuentes" className="rounded-xl border border-border bg-card p-4 font-semibold hover:border-accent/60">Preguntas frecuentes <span className="text-accent">↗</span></a>
+            </nav>
           </div>
         </section>
 
