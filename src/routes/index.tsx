@@ -99,6 +99,9 @@ export const Route = createFileRoute("/")({
       { property: "og:site_name", content: "Gestores Asociados" },
       { property: "og:image", content: "https://gestores-asociados.lovable.app/gestores-logo.jpg" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Reducción de Multas y Gestoría Automotor | Gestores Asociados" },
+      { name: "twitter:description", content: "¿Tenés multas pendientes? Gestionamos infracciones, descargos y trámites del automotor. Consultá las alternativas para tu caso." },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
     scripts: [
       {
@@ -455,6 +458,7 @@ function Index() {
               <a href="/descargos-de-fotomultas" className="rounded-xl border border-border bg-card p-4 font-semibold hover:border-accent/60">Descargos de fotomultas <span className="text-accent">↗</span></a>
               <a href="/infracciones-lanus" className="rounded-xl border border-border bg-card p-4 font-semibold hover:border-accent/60">Infracciones en Lanús <span className="text-accent">↗</span></a>
               <a href="/gestoria-automotor" className="rounded-xl border border-border bg-card p-4 font-semibold hover:border-accent/60">Gestoría del automotor <span className="text-accent">↗</span></a>
+              <a href="/gestoria-automotor-lanus" className="rounded-xl border border-border bg-card p-4 font-semibold hover:border-accent/60">Gestoría en Lanús <span className="text-accent">↗</span></a>
               <a href="/transferencias-automotor" className="rounded-xl border border-border bg-card p-4 font-semibold hover:border-accent/60">Transferencias automotor <span className="text-accent">↗</span></a>
               <a href="/informes-de-dominio" className="rounded-xl border border-border bg-card p-4 font-semibold hover:border-accent/60">Informes de dominio <span className="text-accent">↗</span></a>
               <a href="/gestoria-para-agencias" className="rounded-xl border border-border bg-card p-4 font-semibold hover:border-accent/60">Soluciones para agencias <span className="text-accent">↗</span></a>
