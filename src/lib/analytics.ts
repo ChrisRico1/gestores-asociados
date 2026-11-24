@@ -6,6 +6,7 @@ declare global {
   interface Window {
     dataLayer?: unknown[][];
     gtag?: Gtag;
+    gtagConfigured?: boolean;
   }
 }
 
@@ -14,5 +15,10 @@ export function trackAnalyticsEvent(
   parameters: Record<string, string | number | boolean> = {},
 ) {
   if (typeof window === "undefined" || typeof window.gtag !== "function") return;
+  try {
+    if (window.localStorage.getItem("ga4-consent") !== "granted") return;
+  } catch {
+    return;
+  }
   window.gtag("event", eventName, parameters);
 }
