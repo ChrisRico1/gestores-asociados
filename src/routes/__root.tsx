@@ -136,6 +136,10 @@ function AnalyticsTracker() {
   }, []);
 
   useEffect(() => {
+    if (consent === "denied") {
+      window.gtag?.("consent", "update", { analytics_storage: "denied" });
+      return;
+    }
     if (consent !== "granted") return;
 
     window.dataLayer = window.dataLayer || [];
@@ -151,6 +155,7 @@ function AnalyticsTracker() {
       document.head.appendChild(script);
     }
 
+    window.gtag("consent", "update", { analytics_storage: "granted" });
     if (!window.gtagConfigured) {
       window.gtag("js", new Date());
       window.gtag("config", "G-BG6KDDYZ24", { send_page_view: false });
