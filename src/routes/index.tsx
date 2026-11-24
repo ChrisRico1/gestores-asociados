@@ -294,7 +294,7 @@ function Index() {
                 5,0 en Google · En línea 24 hs
               </div>
               <h1 className="mt-4 max-w-3xl text-[2.15rem] font-bold leading-[1.12] tracking-tight sm:mt-6 sm:text-4xl sm:leading-tight md:text-6xl">
-                Reducción de multas y gestoría del automotor en Buenos Aires
+                Reducción de multas y gestoría del automotor en Buenos Aires.
               </h1>
               <p className="mt-4 max-w-xl text-base leading-relaxed text-muted-foreground sm:mt-5 sm:text-lg">
                 Analizamos infracciones, gestionamos descargos y te orientamos sobre los trámites del automotor. La cobertura depende de la jurisdicción y de cada caso.
