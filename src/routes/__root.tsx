@@ -161,9 +161,23 @@ function AnalyticsTracker() {
       const anchor = target.closest("a");
       if (!anchor) return;
       const href = anchor.getAttribute("href") || "";
+      const advisor = anchor.getAttribute("data-analytics-advisor");
+      const service = anchor.getAttribute("data-analytics-service");
 
       if (/^https?:\/\/wa\.me\//i.test(href)) {
         trackAnalyticsEvent("whatsapp_click", {
+          page_path: window.location.pathname,
+          ...(advisor ? { advisor_selected: advisor } : {}),
+        });
+        if (advisor) {
+          trackAnalyticsEvent("advisor_selected", {
+            advisor_name: advisor,
+            page_path: window.location.pathname,
+          });
+        }
+      } else if (service) {
+        trackAnalyticsEvent("service_consult_click", {
+          service_name: service,
           page_path: window.location.pathname,
         });
       } else if (href.startsWith("#asesores") || href.startsWith("#contacto") || href.startsWith("tel:")) {

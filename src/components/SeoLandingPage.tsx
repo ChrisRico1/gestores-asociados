@@ -15,6 +15,16 @@ const pageLabels: Record<string, string> = {
   "/preguntas-frecuentes": "Preguntas frecuentes",
   "/gestoria-para-agencias": "Gestoría para agencias",
   "/servicios-para-mandatarios": "Servicios para mandatarios",
+  "/infracciones-provincia-buenos-aires": "Infracciones en Provincia de Buenos Aires",
+  "/descargos-de-infracciones": "Descargos de infracciones",
+  "/infracciones-lomas-de-zamora": "Infracciones en Lomas de Zamora",
+  "/infracciones-avellaneda": "Infracciones en Avellaneda",
+  "/verificacion-policial": "Verificación policial",
+  "/alta-baja-patentes": "Alta y baja de patentes",
+  "/sellado-arba": "Sellado ARBA",
+  "/asesores": "Asesores",
+  "/blog": "Blog",
+  "/contacto": "Contacto",
 };
 
 export function buildSeoHead(page: SeoPageContent) {
