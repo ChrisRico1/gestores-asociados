@@ -9,7 +9,7 @@ import {
   useRouterState,
   type ErrorComponentProps,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -112,9 +112,31 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function AnalyticsTracker() {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const [consent, setConsent] = useState<"granted" | "denied" | null>(null);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    try {
+      const saved = window.localStorage.getItem("ga4-consent");
+      if (saved === "granted" || saved === "denied") setConsent(saved);
+    } catch {
+      setConsent("denied");
+    }
+
+    const handleConsentChange = (event: Event) => {
+      const next = (event as CustomEvent<"granted" | "denied" | null>).detail;
+      setConsent(next);
+    };
+    const handleOpenSettings = () => setConsent(null);
+    window.addEventListener("ga4-consent-change", handleConsentChange);
+    window.addEventListener("ga4-open-settings", handleOpenSettings);
+    return () => {
+      window.removeEventListener("ga4-consent-change", handleConsentChange);
+      window.removeEventListener("ga4-open-settings", handleOpenSettings);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (consent !== "granted") return;
 
     window.dataLayer = window.dataLayer || [];
     window.gtag = window.gtag || ((...args: unknown[]) => {
@@ -129,44 +151,68 @@ function AnalyticsTracker() {
       document.head.appendChild(script);
     }
 
-    window.gtag("js", new Date());
-    window.gtag("config", "G-BG6KDDYZ24", { send_page_view: false });
+    if (!window.gtagConfigured) {
+      window.gtag("js", new Date());
+      window.gtag("config", "G-BG6KDDYZ24", { send_page_view: false });
+      window.gtagConfigured = true;
+    }
 
     const handleClick = (event: MouseEvent) => {
       const target = event.target;
       if (!(target instanceof Element)) return;
       const anchor = target.closest("a");
       if (!anchor) return;
-
       const href = anchor.getAttribute("href") || "";
+
       if (/^https?:\/\/wa\.me\//i.test(href)) {
         window.gtag?.("event", "whatsapp_click", {
-          link_url: href,
-          link_text: anchor.textContent?.trim().slice(0, 100) || "WhatsApp",
+          page_path: window.location.pathname,
         });
-      }
-
-      if (href.startsWith("#asesores") || href.startsWith("#contacto") || href.startsWith("tel:")) {
+      } else if (href.startsWith("#asesores") || href.startsWith("#contacto") || href.startsWith("tel:")) {
         window.gtag?.("event", "contact_click", {
-          contact_target: href,
-          link_text: anchor.textContent?.trim().slice(0, 100) || "Contacto",
+          contact_type: href.startsWith("tel:") ? "phone" : "section",
+          page_path: window.location.pathname,
         });
       }
     };
 
     document.addEventListener("click", handleClick, true);
     return () => document.removeEventListener("click", handleClick, true);
-  }, []);
+  }, [consent]);
 
   useEffect(() => {
+    if (consent !== "granted") return;
     window.gtag?.("event", "page_view", {
       page_path: pathname,
-      page_location: window.location.href,
       page_title: document.title,
     });
-  }, [pathname]);
+  }, [pathname, consent]);
 
-  return null;
+  const chooseConsent = (value: "granted" | "denied") => {
+    try {
+      window.localStorage.setItem("ga4-consent", value);
+    } catch {
+      // If storage is unavailable, keep the choice only for this page session.
+    }
+    setConsent(value);
+  };
+
+  return consent === null ? (
+    <aside
+      aria-label="Preferencias de privacidad"
+      className="fixed inset-x-3 bottom-3 z-[100] mx-auto max-w-3xl rounded-xl border border-border bg-card p-4 text-card-foreground shadow-2xl"
+    >
+      <p className="text-sm font-semibold">Preferencias de privacidad</p>
+      <p className="mt-1 text-sm text-muted-foreground">
+        Usamos Google Analytics para medir el uso del sitio y mejorar nuestros servicios. La medición solo se activa si aceptás. No enviamos patentes ni mensajes de WhatsApp a Analytics.
+        <Link to="/privacidad" className="ml-1 underline underline-offset-2">Más información</Link>.
+      </p>
+      <div className="mt-3 flex flex-wrap gap-2">
+        <button type="button" onClick={() => chooseConsent("granted")} className="rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground">Aceptar analítica</button>
+        <button type="button" onClick={() => chooseConsent("denied")} className="rounded-md border border-border px-4 py-2 text-sm font-semibold">Rechazar</button>
+      </div>
+    </aside>
+  ) : null;
 }
 
 function RootComponent() {
