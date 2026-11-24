@@ -6,6 +6,7 @@ import {
   useRouter,
   HeadContent,
   Scripts,
+  useRouterState,
   type ErrorComponentProps,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
@@ -108,11 +109,72 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
+
+function AnalyticsTracker() {
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || ((...args: unknown[]) => {
+      window.dataLayer?.push(args);
+    });
+
+    if (!document.querySelector('script[data-ga4-id="G-BG6KDDYZ24"]')) {
+      const script = document.createElement("script");
+      script.async = true;
+      script.src = "https://www.googletagmanager.com/gtag/js?id=G-BG6KDDYZ24";
+      script.dataset.ga4Id = "G-BG6KDDYZ24";
+      document.head.appendChild(script);
+    }
+
+    window.gtag("js", new Date());
+    window.gtag("config", "G-BG6KDDYZ24", { send_page_view: false });
+
+    const handleClick = (event: MouseEvent) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      const anchor = target.closest("a");
+      if (!anchor) return;
+
+      const href = anchor.getAttribute("href") || "";
+      if (/^https?:\/\/wa\.me\//i.test(href)) {
+        window.gtag?.("event", "whatsapp_click", {
+          link_url: href,
+          link_text: anchor.textContent?.trim().slice(0, 100) || "WhatsApp",
+        });
+      }
+
+      if (href.startsWith("#asesores") || href.startsWith("#contacto") || href.startsWith("tel:")) {
+        window.gtag?.("event", "contact_click", {
+          contact_target: href,
+          link_text: anchor.textContent?.trim().slice(0, 100) || "Contacto",
+        });
+      }
+    };
+
+    document.addEventListener("click", handleClick, true);
+    return () => document.removeEventListener("click", handleClick, true);
+  }, []);
+
+  useEffect(() => {
+    window.gtag?.("event", "page_view", {
+      page_path: pathname,
+      page_location: window.location.href,
+      page_title: document.title,
+    });
+  }, [pathname]);
+
+  return null;
+}
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
     <QueryClientProvider client={queryClient}>
+      <AnalyticsTracker />
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
     </QueryClientProvider>
