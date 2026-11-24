@@ -269,6 +269,8 @@ function Index() {
             <a href="#cobertura" className="hover:text-foreground transition-colors">Cobertura</a>
             <a href="#opiniones" className="hover:text-foreground transition-colors">Opiniones</a>
             <a href="#faq" className="hover:text-foreground transition-colors">FAQ</a>
+            <a href="/blog" className="hover:text-foreground transition-colors">Blog</a>
+            <a href="/contacto" className="hover:text-foreground transition-colors">Contacto</a>
             <a href="#contacto" className="hover:text-foreground transition-colors">Contacto</a>
           </nav>
           <a href="#asesores" className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-whatsapp px-3 py-2 text-xs font-semibold text-whatsapp-foreground shadow-[0_0_28px_rgba(61,230,147,0.28)] transition sm:gap-2 sm:px-4 sm:text-sm">
@@ -292,7 +294,7 @@ function Index() {
                 5,0 en Google · En línea 24 hs
               </div>
               <h1 className="mt-4 max-w-3xl text-[2.15rem] font-bold leading-[1.12] tracking-tight sm:mt-6 sm:text-4xl sm:leading-tight md:text-6xl">
-                Gestión y reducción de multas de tránsito en Buenos Aires
+                Reducción de multas y gestoría del automotor en Buenos Aires
               </h1>
               <p className="mt-4 max-w-xl text-base leading-relaxed text-muted-foreground sm:mt-5 sm:text-lg">
                 Analizamos infracciones, gestionamos descargos y te orientamos sobre los trámites del automotor. La cobertura depende de la jurisdicción y de cada caso.
@@ -378,7 +380,7 @@ function Index() {
                   </div>
                   
                   <a
-                    href={`https://wa.me/${advisor.phone}?text=${advisor.msg}`}
+                    href={`https://wa.me/${advisor.phone}?text=${advisor.msg}`} data-analytics-advisor={advisor.name}
                     target="_blank"
                     rel="noreferrer"
                     className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-whatsapp px-4 py-3 font-semibold text-whatsapp-foreground transition hover:scale-[1.02] shadow-[0_0_20px_rgba(61,230,147,0.25)]"
@@ -439,6 +441,16 @@ function Index() {
                   </div>
                   <h3 className="mt-5 text-lg font-semibold text-foreground">{s.t}</h3>
                   <p className="mt-2 text-sm leading-6 text-muted-foreground">{s.d}</p>
+                  <a href={({
+                    "Infracciones de tránsito": "/reduccion-de-multas",
+                    "Verificación policial": "/verificacion-policial",
+                    "Alta y baja de patente": "/alta-baja-patentes",
+                    "Sellado de ARBA": "/sellado-arba",
+                    "Informes al instante": "/informes-de-dominio",
+                    "Seguros para motos": "/contacto",
+                  } as Record<string, string>)[s.t]} data-analytics-service={s.t} className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-accent hover:underline">
+                    Conocer más <ArrowUpRight className="h-4 w-4" />
+                  </a>
                 </article>
               );
             })}
