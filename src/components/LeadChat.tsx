@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { trackAnalyticsEvent } from "../lib/analytics";
 import { ArrowLeft, MessageCircle, Send, X } from "lucide-react";
 
 type Topic =
@@ -141,7 +142,10 @@ export default function LeadChat() {
                   <button
                     key={item}
                     type="button"
-                    onClick={() => setTopic(item)}
+                    onClick={() => {
+                      trackAnalyticsEvent("lead_chat_start", { lead_topic: item });
+                      setTopic(item);
+                    }}
                     className="flex w-full items-center justify-between gap-3 rounded-xl border border-border bg-background px-3 py-3 text-left text-sm font-medium transition hover:border-accent/70 hover:bg-secondary"
                   >
                     <span>{FLOWS[item].label}</span>
@@ -200,7 +204,14 @@ export default function LeadChat() {
                   rel="noreferrer"
                   aria-disabled={!whatsappHref}
                   onClick={(event) => {
-                    if (!whatsappHref) event.preventDefault();
+                    if (!whatsappHref) {
+                      event.preventDefault();
+                      return;
+                    }
+                    trackAnalyticsEvent("lead_chat_complete", {
+                      lead_topic: topic || "unknown",
+                      advisor: flow.advisor,
+                    });
                   }}
                   className={`inline-flex w-full items-center justify-center gap-2 rounded-full px-4 py-3 text-center text-sm font-semibold transition ${
                     whatsappHref
