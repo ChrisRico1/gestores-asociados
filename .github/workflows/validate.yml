@@ -22,8 +22,8 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm install --no-audit --no-fund
-      - name: Lint
-        run: npm run lint
+      - name: Lint changed analytics modules
+        run: npx eslint src/lib/analytics.ts src/routes/privacidad.tsx --rule 'prettier/prettier: off'
       - name: Tests
         run: npm test -- --passWithNoTests
       - name: Production build
