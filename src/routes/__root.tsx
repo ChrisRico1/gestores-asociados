@@ -137,29 +137,21 @@ function AnalyticsTracker() {
 
   useEffect(() => {
     if (consent === "denied") {
-      window.gtag?.("consent", "update", { analytics_storage: "denied" });
+      // Revoke analytics consent if the visitor changes their preference later.
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push(["consent", "update", { analytics_storage: "denied" }]);
       return;
     }
     if (consent !== "granted") return;
 
     window.dataLayer = window.dataLayer || [];
-    window.gtag = window.gtag || ((...args: unknown[]) => {
-      window.dataLayer?.push(args);
-    });
-
-    if (!document.querySelector('script[data-ga4-id="G-BG6KDDYZ24"]')) {
+    if (!document.querySelector('script[data-gtm-id="GTM-554Z7LXN"]')) {
+      window.dataLayer.push({ "gtm.start": Date.now(), event: "gtm.js" });
       const script = document.createElement("script");
       script.async = true;
-      script.src = "https://www.googletagmanager.com/gtag/js?id=G-BG6KDDYZ24";
-      script.dataset.ga4Id = "G-BG6KDDYZ24";
+      script.src = "https://www.googletagmanager.com/gtm.js?id=GTM-554Z7LXN";
+      script.dataset.gtmId = "GTM-554Z7LXN";
       document.head.appendChild(script);
-    }
-
-    window.gtag("consent", "update", { analytics_storage: "granted" });
-    if (!window.gtagConfigured) {
-      window.gtag("js", new Date());
-      window.gtag("config", "G-BG6KDDYZ24", { send_page_view: false });
-      window.gtagConfigured = true;
     }
 
     const handleClick = (event: MouseEvent) => {
@@ -170,11 +162,11 @@ function AnalyticsTracker() {
       const href = anchor.getAttribute("href") || "";
 
       if (/^https?:\/\/wa\.me\//i.test(href)) {
-        window.gtag?.("event", "whatsapp_click", {
+        trackAnalyticsEvent("whatsapp_click", {
           page_path: window.location.pathname,
         });
       } else if (href.startsWith("#asesores") || href.startsWith("#contacto") || href.startsWith("tel:")) {
-        window.gtag?.("event", "contact_click", {
+        trackAnalyticsEvent("contact_click", {
           contact_type: href.startsWith("tel:") ? "phone" : "section",
           page_path: window.location.pathname,
         });
@@ -187,7 +179,7 @@ function AnalyticsTracker() {
 
   useEffect(() => {
     if (consent !== "granted") return;
-    window.gtag?.("event", "page_view", {
+    trackAnalyticsEvent("page_view", {
       page_path: pathname,
       page_title: document.title,
     });
