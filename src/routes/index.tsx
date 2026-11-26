@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import LeadChat from "../components/LeadChat";
+import { ADVISOR_PHONES } from "../lib/contact";
 
 // Enlaces e información general
 const MAPS = "https://www.google.com/maps/search/?api=1&query=Colon+3939+Lanus+Buenos+Aires";
@@ -32,21 +33,21 @@ const advisors = [
   {
     name: "Christian",
     role: "Especialista en reducción de infracciones",
-    phone: "5491133323229",
+    phone: ADVISOR_PHONES.Christian,
     initial: "C",
     msg: encodeURIComponent("¡Hola Christian! Vengo de la página web de Gestores Asociados y necesito asesoramiento sobre un trámite."),
   },
   {
     name: "Natalia",
     role: "Atención al Cliente",
-    phone: "5491166900550",
+    phone: ADVISOR_PHONES.Natalia,
     initial: "N",
     msg: encodeURIComponent("¡Hola Natalia! Vengo de la página web de Gestores Asociados y necesito asesoramiento sobre un trámite."),
   },
   {
     name: "Florencia",
     role: "Mandataria Nacional Matriculada D.N.R.P.A.",
-    phone: "5491127273404",
+    phone: ADVISOR_PHONES.Florencia,
     initial: "F",
     msg: encodeURIComponent("¡Hola Florencia! Vengo de la página web de Gestores Asociados y necesito asesoramiento sobre un trámite."),
   },
@@ -283,6 +284,12 @@ function Index() {
                 <a href="#asesores" className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-whatsapp px-5 py-3 font-semibold text-whatsapp-foreground shadow-[0_0_34px_rgba(61,230,147,0.30)] transition sm:w-auto sm:px-6">
                   <MessageCircle className="h-5 w-5" />
                   Consultar un asesor
+                </a>
+                <a href="/reduccion-de-multas" className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-accent/50 bg-card px-5 py-3 font-semibold text-foreground transition hover:border-accent sm:w-auto sm:px-6">
+                  Consultar mis infracciones
+                </a>
+                <a href="/gestoria-automotor" className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-border px-5 py-3 font-semibold text-foreground transition hover:border-accent sm:w-auto sm:px-6">
+                  Trámites del automotor
                 </a>
               </div>
             </div>
