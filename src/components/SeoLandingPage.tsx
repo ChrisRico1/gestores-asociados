@@ -28,7 +28,7 @@ const pageLabels: Record<string, string> = {
   "/contacto": "Contacto",
 };
 
-export function buildSeoHead(page: SeoPageContent) {
+export function buildSeoHead(page: SeoPageContent, options: { indexable?: boolean } = {}) {
   const canonical = `${SITE_URL}${page.path}`;
   const structuredData = {
     "@context": "https://schema.org",
@@ -66,7 +66,7 @@ export function buildSeoHead(page: SeoPageContent) {
     meta: [
       { title: page.title },
       { name: "description", content: page.description },
-      { name: "robots", content: "index,follow,max-image-preview:large" },
+      { name: "robots", content: options.indexable === false ? "noindex,follow" : "index,follow,max-image-preview:large" },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "Gestores Asociados" },
       { property: "og:title", content: page.title },

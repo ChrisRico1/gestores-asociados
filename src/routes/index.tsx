@@ -250,9 +250,7 @@ function Index() {
             <a href="#cobertura" className="hover:text-foreground transition-colors">Cobertura</a>
             <a href="#opiniones" className="hover:text-foreground transition-colors">Opiniones</a>
             <a href="#faq" className="hover:text-foreground transition-colors">FAQ</a>
-            <a href="/blog" className="hover:text-foreground transition-colors">Blog</a>
             <a href="/contacto" className="hover:text-foreground transition-colors">Contacto</a>
-            <a href="#contacto" className="hover:text-foreground transition-colors">Contacto</a>
           </nav>
           <a href="#asesores" className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-whatsapp px-3 py-2 text-xs font-semibold text-whatsapp-foreground shadow-[0_0_28px_rgba(61,230,147,0.28)] transition sm:gap-2 sm:px-4 sm:text-sm">
             <MessageCircle className="h-4 w-4" />
