@@ -89,6 +89,7 @@ const faqs = [
 export const Route = createFileRoute("/")({
   staticData: { sitemap: true },
   head: () => ({
+    links: [{ rel: "canonical", href: "https://gestores-asociados.lovable.app/" }],
     meta: [
       { title: "Reducción de Multas y Gestoría Automotor | Gestores Asociados" },
       { name: "description", content: "¿Tenés multas pendientes? En Gestores Asociados gestionamos infracciones, descargos y trámites del automotor. Consultá las alternativas disponibles para tu caso." },
@@ -101,7 +102,6 @@ export const Route = createFileRoute("/")({
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Reducción de Multas y Gestoría Automotor | Gestores Asociados" },
       { name: "twitter:description", content: "¿Tenés multas pendientes? Gestionamos infracciones, descargos y trámites del automotor. Consultá las alternativas para tu caso." },
-      { name: "twitter:card", content: "summary_large_image" },
     ],
     scripts: [
       {
@@ -114,7 +114,6 @@ export const Route = createFileRoute("/")({
           "@id": "https://gestores-asociados.lovable.app/",
           "url": "https://gestores-asociados.lovable.app/",
           "telephone": "+541133323229",
-          "priceRange": "$$",
           "address": {
             "@type": "PostalAddress",
             "streetAddress": "Colón 3939",
@@ -122,25 +121,6 @@ export const Route = createFileRoute("/")({
             "addressRegion": "Buenos Aires",
             "postalCode": "B1824",
             "addressCountry": "AR"
-          },
-          "geo": {
-            "@type": "GeoCoordinates",
-            "latitude": -34.7075,
-            "longitude": -58.3816
-          },
-          "openingHoursSpecification": {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": [
-              "Monday",
-              "Tuesday",
-              "Wednesday",
-              "Thursday",
-              "Friday",
-              "Saturday",
-              "Sunday"
-            ],
-            "opens": "00:00",
-            "closes": "23:59"
           },
           "sameAs": [
             "https://www.facebook.com/profile.php?id=61573403949959",
