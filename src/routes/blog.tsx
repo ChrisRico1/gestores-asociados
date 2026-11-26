@@ -5,7 +5,8 @@ import { seoExtraPages } from "@/lib/seo-extra-pages";
 const page = seoExtraPages["/blog"];
 
 export const Route = createFileRoute("/blog")({
-  staticData: { sitemap: true },
-  head: () => buildSeoHead(page),
+  // Todavía no existe una colección editorial de artículos terminados.
+  staticData: { sitemap: false },
+  head: () => buildSeoHead(page, { indexable: false }),
   component: () => <SeoLandingPage page={page} />,
 });
