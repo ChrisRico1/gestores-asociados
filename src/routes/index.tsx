@@ -19,73 +19,23 @@ import {
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import LeadChat from "../components/LeadChat";
-import { ADVISOR_PHONES } from "../lib/contact";
+import { BUSINESS, ADVISORS, COVERAGE_AREAS, SERVICES, REVIEWS, FAQS } from "../lib/mcp/business";
 
-// Enlaces e información general
-const MAPS = "https://www.google.com/maps/search/?api=1&query=Colon+3939+Lanus+Buenos+Aires";
-const FACEBOOK = "https://www.facebook.com/profile.php?id=61573403949959";
-const INSTAGRAM = "https://www.instagram.com/gestoresasociados/";
-const TIKTOK = "https://www.tiktok.com/@gestores_asociados";
-const GOOGLE_BUSINESS = "https://share.google/lDuSeHpey97KRjsLR";
+// Datos comerciales compartidos con el servidor MCP: nunca mantener copias separadas.
+const FACEBOOK = BUSINESS.socials.facebook;
+const INSTAGRAM = BUSINESS.socials.instagram;
+const TIKTOK = BUSINESS.socials.tiktok;
+const GOOGLE_BUSINESS = BUSINESS.googleBusinessUrl;
 
-// Asesores de Gestores Asociados con roles oficiales
-const advisors = [
-  {
-    name: "Christian",
-    role: "Especialista en reducción de infracciones",
-    phone: ADVISOR_PHONES.Christian,
-    initial: "C",
-    msg: encodeURIComponent("¡Hola Christian! Vengo de la página web de Gestores Asociados y necesito asesoramiento sobre un trámite."),
-  },
-  {
-    name: "Natalia",
-    role: "Atención al Cliente",
-    phone: ADVISOR_PHONES.Natalia,
-    initial: "N",
-    msg: encodeURIComponent("¡Hola Natalia! Vengo de la página web de Gestores Asociados y necesito asesoramiento sobre un trámite."),
-  },
-  {
-    name: "Florencia",
-    role: "Mandataria Nacional Matriculada D.N.R.P.A.",
-    phone: ADVISOR_PHONES.Florencia,
-    initial: "F",
-    msg: encodeURIComponent("¡Hola Florencia! Vengo de la página web de Gestores Asociados y necesito asesoramiento sobre un trámite."),
-  },
-];
+const advisors = ADVISORS.map(({ name, role, whatsapp }) => ({
+  name,
+  role,
+  whatsapp,
+  initial: name.slice(0, 1),
+}));
 
-// Zonas de Cobertura
-const coverageAreas = [
-  { title: "Lanús Este & Oeste", desc: "Oficina central y atención presencial/coordinada inmediata." },
-  { title: "Avellaneda", desc: "Gestiones rápidas ante Registros Automotores de la zona." },
-  { title: "Lomas de Zamora", desc: "Trámites de transferencia, informes y verificación." },
-  { title: "Quilmes", desc: "Asesoramiento integral para particulares y flotas." },
-  { title: "CABA", desc: "Cobertura en registros e instituciones de Capital Federal." },
-  { title: "Zona Sur GBA", desc: "Atención a partidos aledaños con logística ágil." },
-];
-
-// Preguntas Frecuentes
-const faqs = [
-  {
-    q: "¿Qué documentación necesito para iniciar una transferencia?",
-    a: "Lo fundamental es contar con el Título de propiedad (físico o digital), la Cédula de identificación del vehículo, DNI de comprador y vendedor, y el formulario 08 (firmado o para firmar). Nosotros revisamos toda la documentación para que no tengas demoras.",
-  },
-  {
-    q: "¿Puedo consultar o descontar infracciones antes de vender o comprar?",
-    a: "Podés consultarnos. Revisamos la jurisdicción, el estado de las actas y la documentación disponible para confirmar qué alternativas de gestión o descargo existen. No trabajamos todas las jurisdicciones y no se garantizan reducciones ni anulaciones.",
-  },
-  {
-    q: "¿Cuánto tarda un Informe de Dominio?",
-    a: "Los informes de dominio urgente o en el acto se obtienen en el día (muchas veces en minutos), mientras que los comunes tardan entre 24 y 48 horas hábiles. Te avisamos inmediatamente apenas lo tenemos en mano.",
-  },
-  {
-    q: "¿Atienden únicamente en Lanús o en toda Zona Sur y CABA?",
-    a: "Nuestra oficina central está en Colón 3939, Lanús. La cobertura de cada trámite depende de la jurisdicción y del organismo interviniente; confirmamos la disponibilidad antes de aceptar la gestión.",
-  },
-  {
-    q: "¿Tienen costo las consultas iniciales por WhatsApp?",
-    a: "No, la consulta previa y el asesoramiento inicial para saber qué papeles necesitás o cómo proceder son totalmente gratuitos y sin compromiso.",
-  },
-];
+const coverageAreas = COVERAGE_AREAS.map(({ title, description }) => ({ title, desc: description }));
+const faqs = FAQS.map(({ question, answer }) => ({ q: question, a: answer }));
 
 export const Route = createFileRoute("/")({
   staticData: { sitemap: true },
@@ -141,42 +91,18 @@ type Service = {
   icon: LucideIcon;
 };
 
-const services: Service[] = [
-  { t: "Infracciones de tránsito", d: "Analizamos tu caso, gestionamos descargos y reducciones de multas.", icon: FileText },
-  { t: "Verificación policial", d: "Coordinamos la verificación de tu vehículo sin vueltas.", icon: ShieldCheck },
-  { t: "Alta y baja de patente", d: "Radicaciones, altas y bajas ante el Registro Automotor.", icon: Car },
-  { t: "Sellado de ARBA", d: "Liquidación y pago de sellos para tus operaciones.", icon: BadgeCheck },
-  { t: "Informes al instante", d: "Informes de dominio, 13i, RENAPER, InfoEx y DATEA en minutos.", icon: FileCheck2 },
-  { t: "Seguros para motos", d: "Coberturas para aplicaciones, remis y transporte comercial.", icon: Clock },
-];
+const serviceIcons: LucideIcon[] = [FileText, ShieldCheck, Car, BadgeCheck, FileCheck2, Clock];
+const services: Service[] = SERVICES.map((service, index) => ({
+  t: service.name,
+  d: service.description,
+  icon: serviceIcons[index] ?? FileText,
+}));
 
-const reviews = [
-  {
-    n: "Stefania Orsini",
-    r: "Me tuvieron toda la paciencia para explicarme y me solucionaron todo 😎🙌",
-    tag: "Transferencia automotor",
-  },
-  {
-    n: "Maximiliano Delia",
-    r: "Súper recomendables, todo fue excelente y en tiempo récord.",
-    tag: "Informe de dominio e infracciones",
-  },
-  {
-    n: "Fabian Vera",
-    r: "Excelente servicio, rápidos y muy eficaces. Súper confiables.",
-    tag: "Verificación policial",
-  },
-  {
-    n: "Romitucci82",
-    r: "Son excelentes y muy recomendables en confianza. ¡Muchas gracias!",
-    tag: "Gestión de patentes",
-  },
-  {
-    n: "Lautaro Martinez",
-    r: "Buen servicio y atención constante por WhatsApp, muchas gracias!",
-    tag: "Asesoramiento general",
-  },
-];
+const reviews = REVIEWS.map(({ author, review, topic }) => ({
+  n: author,
+  r: review,
+  tag: topic,
+}));
 
 const steps = [
   { t: "Nos escribís", d: "Contanos qué trámite necesitás resolver y mandanos la documentación disponible." },
@@ -365,7 +291,7 @@ function Index() {
                   </div>
                   
                   <a
-                    href={`https://wa.me/${advisor.phone}?text=${advisor.msg}`} data-analytics-advisor={advisor.name}
+                    href={advisor.whatsapp} data-analytics-advisor={advisor.name}
                     target="_blank"
                     rel="noreferrer"
                     className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-whatsapp px-4 py-3 font-semibold text-whatsapp-foreground transition hover:scale-[1.02] shadow-[0_0_20px_rgba(61,230,147,0.25)]"
