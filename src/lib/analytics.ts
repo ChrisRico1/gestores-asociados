@@ -21,3 +21,24 @@ export function trackAnalyticsEvent(
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({ event: eventName, ...parameters });
 }
+
+/**
+ * GTM Consent Mode utiliza el comando gtag (objeto IArguments) en dataLayer.
+ * No se registran valores personales: solo cambia el permiso de medición.
+ * Los tags configurados dentro de GTM también deben respetar este consentimiento.
+ */
+export function updateAnalyticsConsent(consent: "granted" | "denied") {
+  if (typeof window === "undefined") return;
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() {
+    window.dataLayer?.push(arguments);
+  }
+
+  gtag("consent", "update", {
+    analytics_storage: consent,
+    ad_storage: "denied",
+    ad_user_data: "denied",
+    ad_personalization: "denied",
+  });
+}
