@@ -1,3 +1,5 @@
+import { whatsappLink } from "../contact";
+
 // Datos públicos del negocio, los mismos que muestra la landing en src/routes/index.tsx.
 // Fuente única para el servidor MCP (src/lib/mcp) y las herramientas del navegador.
 
@@ -52,7 +54,7 @@ export const FAQS = [
   },
   {
     question: "¿Puedo consultar o descontar infracciones antes de vender o comprar?",
-    answer: "¡Sí! Hacemos un informe exhaustivo de multas y deudas de patentes a nivel municipal y provincial (ARBA/CABA), gestionamos los descargos correspondientes y te asesoramos para que resuelvas la deuda de la forma más económica posible.",
+    answer: "Podés consultarnos. Revisamos la jurisdicción, el estado de las actas y la documentación disponible para confirmar qué alternativas de gestión o descargo existen. No trabajamos todas las jurisdicciones y no se garantizan reducciones ni anulaciones.",
   },
   {
     question: "¿Cuánto tarda un Informe de Dominio?",
@@ -60,7 +62,7 @@ export const FAQS = [
   },
   {
     question: "¿Atienden únicamente en Lanús o en toda Zona Sur y CABA?",
-    answer: "Si bien nuestra oficina central está ubicada en Lanús (Colón 3939), realizamos radicaciones, transferencias y trámites en registros automotores de toda Zona Sur (Avellaneda, Lomas de Zamora, Quilmes) y CABA.",
+    answer: "Nuestra oficina central está en Colón 3939, Lanús. La cobertura de cada trámite depende de la jurisdicción y del organismo interviniente; confirmamos la disponibilidad antes de aceptar la gestión.",
   },
   {
     question: "¿Tienen costo las consultas iniciales por WhatsApp?",
@@ -73,16 +75,16 @@ export const ADVISORS = [
   {
     name: "Christian",
     role: "Especialista en reducción de infracciones",
-    whatsapp: "https://wa.me/5491133323229?text=" + encodeURIComponent("¡Hola Christian! Vengo de la página web de Gestores Asociados y necesito asesoramiento sobre un trámite."),
+    whatsapp: whatsappLink("Christian", "¡Hola Christian! Vengo de la página web de Gestores Asociados y necesito asesoramiento sobre un trámite."),
   },
   {
     name: "Natalia",
     role: "Atención al Cliente",
-    whatsapp: "https://wa.me/5491166900550?text=" + encodeURIComponent("¡Hola Natalia! Vengo de la página web de Gestores Asociados y necesito asesoramiento sobre un trámite."),
+    whatsapp: whatsappLink("Natalia", "¡Hola Natalia! Vengo de la página web de Gestores Asociados y necesito asesoramiento sobre un trámite."),
   },
   {
     name: "Florencia",
     role: "Mandataria Nacional Matriculada D.N.R.P.A.",
-    whatsapp: "https://wa.me/5491127273404?text=" + encodeURIComponent("¡Hola Florencia! Vengo de la página web de Gestores Asociados y necesito asesoramiento sobre un trámite."),
+    whatsapp: whatsappLink("Florencia", "¡Hola Florencia! Vengo de la página web de Gestores Asociados y necesito asesoramiento sobre un trámite."),
   },
 ] as const;
