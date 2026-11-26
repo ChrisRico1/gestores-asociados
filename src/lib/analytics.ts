@@ -32,6 +32,8 @@ export function updateAnalyticsConsent(consent: "granted" | "denied") {
   window.dataLayer = window.dataLayer || [];
 
   function gtag() {
+    // GTM requiere el objeto IArguments de la llamada gtag.
+    // eslint-disable-next-line prefer-rest-params
     window.dataLayer?.push(arguments);
   }
 
