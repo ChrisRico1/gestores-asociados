@@ -13,7 +13,7 @@ import { useEffect, useState, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { trackAnalyticsEvent } from "../lib/analytics";
+import { trackAnalyticsEvent, updateAnalyticsConsent } from "../lib/analytics";
 
 function NotFoundComponent() {
   return (
@@ -138,13 +138,14 @@ function AnalyticsTracker() {
 
   useEffect(() => {
     if (consent === "denied") {
-      // Revoke analytics consent if the visitor changes their preference later.
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push(["consent", "update", { analytics_storage: "denied" }]);
+      // El contenedor cargado antes puede seguir existiendo, pero se revoca permiso.
+      updateAnalyticsConsent("denied");
       return;
     }
     if (consent !== "granted") return;
 
+    // Aplicar consentimiento antes de inyectar GTM y activar listeners.
+    updateAnalyticsConsent("granted");
     window.dataLayer = window.dataLayer || [];
     if (!document.querySelector('script[data-gtm-id="GTM-554Z7LXN"]')) {
       window.dataLayer.push({ "gtm.start": Date.now(), event: "gtm.js" });
