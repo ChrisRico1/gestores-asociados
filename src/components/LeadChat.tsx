@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { trackAnalyticsEvent } from "../lib/analytics";
+import { ADVISOR_PHONES } from "../lib/contact";
 import { ArrowLeft, MessageCircle, Send, X } from "lucide-react";
 
 type Topic =
@@ -25,7 +26,7 @@ const FLOWS: Record<Topic, Flow> = {
     prompt: "Para cotizar la gestión de infracciones en Provincia de Buenos Aires y CABA, ingresá la patente del vehículo.",
     kind: "patente",
     advisor: "Christian",
-    phone: "5491133323229",
+    phone: ADVISOR_PHONES.Christian,
     message: (patente) =>
       `Hola Christian, vengo desde la web de Gestores Asociados. Quiero consultar y cotizar infracciones en PBA y CABA para la patente ${patente}.`,
   },
@@ -34,7 +35,7 @@ const FLOWS: Record<Topic, Flow> = {
     prompt: "Te orientamos con la renovación del registro. Enviá la documentación por WhatsApp para que podamos revisar tu caso.",
     kind: "documentacion",
     advisor: "Natalia",
-    phone: "5491166900550",
+    phone: ADVISOR_PHONES.Natalia,
     message: () => "Hola Natalia, vengo desde la web de Gestores Asociados y necesito ayuda con la renovación del registro. Quiero enviar la documentación.",
   },
   "altas-bajas": {
@@ -42,7 +43,7 @@ const FLOWS: Record<Topic, Flow> = {
     prompt: "Podemos orientarte con el alta o la baja que necesitás. Contactanos por WhatsApp para enviar la documentación y revisar tu caso.",
     kind: "documentacion",
     advisor: "Florencia",
-    phone: "5491127273404",
+    phone: ADVISOR_PHONES.Florencia,
     message: () => "Hola Florencia, vengo desde la web de Gestores Asociados. Necesito consultar por un alta o baja de patente / baja por seguro y enviar la documentación.",
   },
   prendas: {
@@ -50,7 +51,7 @@ const FLOWS: Record<Topic, Flow> = {
     prompt: "Para revisar tu consulta sobre prendas, escribinos por WhatsApp y enviá la documentación del vehículo y del trámite.",
     kind: "documentacion",
     advisor: "Florencia",
-    phone: "5491127273404",
+    phone: ADVISOR_PHONES.Florencia,
     message: () => "Hola Florencia, vengo desde la web de Gestores Asociados y necesito asesoramiento por un trámite de prenda. Quiero enviar la documentación.",
   },
   transferencias: {
@@ -58,7 +59,7 @@ const FLOWS: Record<Topic, Flow> = {
     prompt: "Te ayudamos a orientar el trámite. Escribinos por WhatsApp y enviá la documentación disponible para revisar cómo avanzar.",
     kind: "documentacion",
     advisor: "Florencia",
-    phone: "5491127273404",
+    phone: ADVISOR_PHONES.Florencia,
     message: () => "Hola Florencia, vengo desde la web de Gestores Asociados y necesito asesoramiento por una transferencia u otro trámite del automotor.",
   },
 
@@ -67,7 +68,7 @@ const FLOWS: Record<Topic, Flow> = {
     prompt: "Ingresá la patente para solicitar un informe de dominio o consultar deuda de patente o infracciones.",
     kind: "patente",
     advisor: "Christian",
-    phone: "5491133323229",
+    phone: ADVISOR_PHONES.Christian,
     message: (patente) =>
       `Hola Christian, vengo desde la web de Gestores Asociados. Quiero consultar por un informe de dominio o deuda de patente o infracciones para el vehículo con patente ${patente}.`,
   },
