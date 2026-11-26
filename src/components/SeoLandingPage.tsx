@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowLeft, ArrowUpRight, MessageCircle } from "lucide-react";
 import type { SeoPageContent } from "@/lib/seo-pages";
+import { advisorForPage, whatsappLink } from "@/lib/contact";
 
 const SITE_URL = "https://gestores-asociados.lovable.app";
 
@@ -82,8 +83,10 @@ export function buildSeoHead(page: SeoPageContent) {
 }
 
 export default function SeoLandingPage({ page }: { page: SeoPageContent }) {
-  const whatsapp = "https://wa.me/5491133323229?text=" + encodeURIComponent(
-    `Hola, vengo de la web de Gestores Asociados. Quiero consultar por: ${page.serviceName}.`,
+  const advisor = advisorForPage(page.path);
+  const whatsapp = whatsappLink(
+    advisor,
+    `Hola ${advisor}, vengo de la web de Gestores Asociados. Quiero consultar por: ${page.serviceName}.`,
   );
 
   return (
